@@ -5,6 +5,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.3",
     "bookshelf": "^0.7.9",
+    "chai": "^2.3.0",
     "express": "^4.12.3",
     "express-partials": "^0.3.0",
     "express-session": "^1.11.1",
@@ -12,9 +13,22 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-nodemon": "^0.4.0",
     "grunt-shell": "^1.1.2",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.8",
+    "karma-mocha": "^0.1.10",
+    "karma-requirejs": "^0.2.2",
     "knex": "^0.7.6",
+    "mocha": "^2.2.4",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
+    "requirejs": "^2.1.17",
     "sqlite3": "^3.0.5"
+  },
+  "devDependencies": {
+    "test": "^0.6.0"
+  },
+  "scripts": {
+    "mochaTest": "mocha Tests/mochaTempTest.js"
   }
 }
