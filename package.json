@@ -10,6 +10,7 @@
     "express-partials": "^0.3.0",
     "express-session": "^1.11.1",
     "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-karma": "^0.10.1",
     "grunt-mocha": "^0.4.12",
@@ -33,6 +34,6 @@
     "test": "^0.6.0"
   },
   "scripts": {
-    "mochaTest": "mocha Tests/mochaTempTest.js"
+    "test": "grunt test"
   }
 }
