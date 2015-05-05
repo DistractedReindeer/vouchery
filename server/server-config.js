@@ -32,6 +32,8 @@ app.use('/', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
+
+
 app.get('/auth/facebook', passport.authenticate('facebook', {session: false, scope: 'user_friends'}));
 
 // handle the callback after facebook has authenticated the user
@@ -43,6 +45,7 @@ app.get('/auth/facebook/callback',
     }), function(req, res){
     	console.log("*****");
     	console.log(req.user);
+    	// res.redirect('/');
         res.json({token: req.user[0].dataValues.fbToken});
     	
 });

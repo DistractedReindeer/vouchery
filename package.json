@@ -34,6 +34,7 @@
 
     "mocha": "^2.2.4",
     "passport": "^0.2.1",
+    "passport-facebook-token": "^2.0.0",
     "passport-local": "^1.0.0",
     "requirejs": "^2.1.17",
     "sinon": "^1.14.1",
