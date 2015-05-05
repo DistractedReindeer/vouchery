@@ -6,8 +6,8 @@ module.exports = {
 	fetchMyLinks: function(req, res, next){
 
 		//todo: change user to reflect fbID of user
-		var user = req.query.id;
-		console.log(req.query.id);
+		var user = req.headers.id;
+		console.log(req.headers.id);
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
 				db.Link.findAll({where: 
@@ -23,7 +23,7 @@ module.exports = {
 	},
 
 	fetchFriendsLinks: function(req, res, next){
-		var user = req.query.id;
+		var user = req.headers.id;
 
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){
@@ -59,9 +59,10 @@ module.exports = {
 	postLink: function(req, res, next){
 
 		var link = req.body.link;
-		var user = req.body.user;
+		var fbID = req.body.fbID;
 
-		db.User.findOrCreate({where: {fbID: user}})
+
+		db.User.findOrCreate({where: {fbID: fbID}})
 			.then(function(user){
 				db.Link.findOrCreate({where: 
 					{
