@@ -3,21 +3,20 @@ var partials = require('express-partials');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 require('./config/passport')(passport); // pass passport for configuration
+var BearerStrategy = require('passport-http-bearer').Strategy
+var cors = require('cors');
 
 // var auth = require('./server/authentication/authentication.js');
-var session = require('express-session');
+
 var db = require('./db');
 
-//authentication stuff
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
 
-fs = require('fs')
+
 
 var app = express();
-app.use(session({secret: 'supersecretkey'}));
+app.use(cors());
 app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(partials());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,34 +27,36 @@ app.use(express.static(__dirname + '/public/client'));
 var userRouter = express.Router();
 var linkRouter = express.Router();
 
-// We are going to protect /api routes with JWT
-app.use('/api/links/myLinks', expressJwt({secret: "secret"}));
-// app.use(express.json());
-// app.use(express.urlencoded());
+app.use('/', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+app.get('/auth/facebook', passport.authenticate('facebook', {session: false, scope: 'user_friends'}));
+
+// handle the callback after facebook has authenticated the user
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+    	session: false,
+        // successRedirect : '/tokenize',
+        failureRedirect : '/login'
+    }), function(req, res){
+    	console.log("*****");
+    	console.log(req.user);
+        res.json({token: req.user[0].dataValues.fbToken});
+    	
+});
 
 
 // app.use('/api/users', userRouter); // use user router for all user request
 app.use('/api/links', linkRouter); // user link router for link request
 
+
+
 app.get('/',  function(req, res) {
   console.log('hi');
 });
 
-
- app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'user_friends'}));
-
-    // handle the callback after facebook has authenticated the user
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            successRedirect : '/tokenize',
-            failureRedirect : '/login'
-        }));
-
-    app.get('/tokenize', function(req, res){
-    	// We are sending the profile inside the token
-    	var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
-    	res.json({ token: token });
-    });
 
     // route for logging out
     app.get('/logout', function(req, res) {
