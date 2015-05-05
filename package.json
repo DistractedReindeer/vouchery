@@ -13,8 +13,10 @@
     "grunt-nodemon": "^0.4.0",
     "grunt-shell": "^1.1.2",
     "knex": "^0.7.6",
+    "mysql": "^2.6.2",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
+    "sequelize": "^2.1.0",
     "sqlite3": "^3.0.5"
   }
 }
