@@ -11,17 +11,14 @@ module.exports = function(passport) {
 
 
     // used to serialize the user for the session
-    passport.serializeUser(function(user, done) {
-        done(null, 'a');
-    });
+  //   passport.serializeUser(function(user, done) {
+  //       done(null, 'a');
+  //   });
 
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-		done(null, 'b')
-    });
-
-
-
+  //   // used to deserialize the user
+  //   passport.deserializeUser(function(id, done) {
+		// done(null, 'b')
+  //   });
 
 	passport.use(new FacebookStrategy({
 
@@ -33,41 +30,26 @@ module.exports = function(passport) {
 	function(token, refreshToken, profile, done){
 
 		process.nextTick(function(){
-			console.log("I'm in here");
-			console.log(profile);
-			console.log("");
-			console.log(token);
 
-			db.User.findOrCreate({where: {fbToken: profile.id}})
+			db.User.findOrCreate({where: {fbID: profile.id}})
 				.then(function(user){
-					/*
-					{
-						"data": [
-						{
-						  "name": "Tuvia Lerea", 
-						  "id": "10152730965697173"
-						}, 
-						{
-						  "name": "Vicki Cheung", 
-						  "id": "503248276"
-						}
-					}*/
-					console.log(token);
 
-					request("https://graph.facebook.com/me/friends?access_token="+token, function(error, response, body) {
-						var results = JSON.parse(body).data.map(function(user){
-							return user.id;
-						});					
-						console.log("results",results);
+					db.User.update({fbToken: token}, {where:{fbID: profile.id}})
+						.then( function(){
 
-						results.forEach(function(ele){
-							console.log(profile.id, ele);
-							db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
-						});
+							request("https://graph.facebook.com/me/friends?access_token="+token, function(error, response, body) {
+								var results = JSON.parse(body).data.map(function(user){
+									return user.id;
+								});					
+								console.log("results",results);
 
-					});			
+								results.forEach(function(ele){
+									console.log(profile.id, ele);
+									db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
+								});
 
-
+							});	
+						})
 					return done(null, user);
 				})
 			});

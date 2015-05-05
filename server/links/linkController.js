@@ -5,10 +5,10 @@ module.exports = {
 
 	fetchMyLinks: function(req, res, next){
 
-		//todo: change user to reflect fbtoken of user
+		//todo: change user to reflect fbID of user
 		var user = req.query.id;
 		console.log(req.query.id);
-		db.User.findOne({where: {fbToken: user}})
+		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
 				db.Link.findAll({where: 
 					{
@@ -37,7 +37,7 @@ module.exports = {
 
 				friends.forEach(function(friendId){
 					console.log(friendId);
-					db.User.findOne({where: {fbToken: friendId}})
+					db.User.findOne({where: {fbID: friendId}})
 						.then(function(user) {
 							db.Link.findAll({where: 
 								{
@@ -61,7 +61,7 @@ module.exports = {
 		var link = req.body.link;
 		var user = req.body.user;
 
-		db.User.findOrCreate({where: {fbToken: user}})
+		db.User.findOrCreate({where: {fbID: user}})
 			.then(function(user){
 				db.Link.findOrCreate({where: 
 					{

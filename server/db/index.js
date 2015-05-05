@@ -2,7 +2,9 @@ var Sequelize = require('sequelize');
 var orm = new Sequelize('promo', 'root', '');
 
 var User = orm.define('User', {
+	fbID: Sequelize.STRING,
 	fbToken: Sequelize.STRING
+
 });
 
 var Link = orm.define('Link', {
