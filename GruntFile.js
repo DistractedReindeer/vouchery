@@ -10,12 +10,14 @@ module.exports = function(grunt) {
       }
     },
 
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec'
-        },
-        src: ['test/**/*.js']
+    // configure karma
+    karma: {
+      options: {
+        configFile: 'karma.conf.js',
+      },
+      // Single-run configuration for development
+      single: {
+        singleRun: true,
       }
     },
 
@@ -78,6 +80,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-mocha');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console

@@ -11,6 +11,8 @@
     "express-session": "^1.11.1",
     "grunt": "^0.4.5",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-karma": "^0.10.1",
+    "grunt-mocha": "^0.4.12",
     "grunt-nodemon": "^0.4.0",
     "grunt-shell": "^1.1.2",
     "karma": "^0.12.31",
@@ -18,11 +20,13 @@
     "karma-chrome-launcher": "^0.1.8",
     "karma-mocha": "^0.1.10",
     "karma-requirejs": "^0.2.2",
+    "karma-sinon": "^1.0.4",
     "knex": "^0.7.6",
     "mocha": "^2.2.4",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "requirejs": "^2.1.17",
+    "sinon": "^1.14.1",
     "sqlite3": "^3.0.5"
   },
   "devDependencies": {
