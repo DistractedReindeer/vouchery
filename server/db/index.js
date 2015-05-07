@@ -21,13 +21,6 @@ var FriendsList = orm.define('FriendsList',{
 
 User.hasMany(Link);
 Link.belongsTo(User);
-// User.hasMany(User, {
-//     as: 'Friends',
-//     foreignKey: 'FriendId',
-//     through: 'Friends'
-// });
-// User.hasMany(User, {as: "Friends", foriegnKey:'friendsID', through: 'FriendsLists'});
-
 
 User.sync();
 Link.sync();

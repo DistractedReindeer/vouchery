@@ -3,11 +3,7 @@ var linksController = require('./linkController.js')
 module.exports = function(app, passport) {
 	//api/links/myLinks
 	//Server receives request for user's posted links
-	app.use('/', passport.authenticate('facebook-token', {session:false}),
-		function(req, res, next){
-
-			next();
-		});
+	app.use('/', passport.authenticate('facebook-token', {session:false}));
 
 	app.get('/myLinks', linksController.fetchMyLinks);
 
