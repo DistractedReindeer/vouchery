@@ -3,8 +3,15 @@
   <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>  
     <script src="./clientAPI.js"></script>
+    <script src="./facebookLogin.js"></script>
 
 </head>
   <body>
+
+  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<div id="status">
+</div>
   </body>
 </html>

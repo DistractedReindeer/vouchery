@@ -1,26 +1,38 @@
 /*
 *	Client API
 */
-var baseUrl = 'http://localhost:4568'
+var baseURL = 'http://localhost:4568';
 
 //login
 var login = function(callback) {
-	$.ajax({
-		type: "GET",
-		url: baseURL + '/auth/facebook/'
-	}).done(function(data){
-		console.log(data);
-	})
+	// $.ajax({
+	// 	type: "GET",
+	// 	url: baseURL + '/auth/facebook/'
+	// }).done(function(data){
+	// 	console.log(data);
+	// })
+
+	window.localStorage.setItem( 'vouchery', 'CAAWqaDAd9VABAMoG0Aqd62jjLVsieJMZBxLJtZAKO8PexxVjpLuoKc5CEv3W2zucbGvYEkH93ZAxvYc7R923f5ZBcHfxnGunneoMXZBMrTnANusgl9ZCnmYqJHff9N1imiABGZBXuyDh7pBFAZCtjFVZBDNjmVARqjnJPZB5EcxVgLqCEuHpZCLWgv2ewIRTcNa8hTsZBADzREbR9nn7lIR8ignF');
+
 };
+
+var id;
+var name; 
 
 var getStoredToken = function() {
 
-	var token = "some token";
-	return token;
+	id = "10206432467109292";
+	name = "Darren Wong";
+	return window.localStorage.getItem('vouchery');
 }
 
+var logout = function() {
+	id = '';
+	name = '';
+};
+
 //fetch my links(needs token)
-var getMyLinks = function(callback) {
+var getMyLinks = function(id) {
 
 	var token = getStoredToken();
 
@@ -29,10 +41,11 @@ var getMyLinks = function(callback) {
 			type: 'GET',
 			url: baseURL + '/api/links/myLinks',
 			headers: {
-			       "id":"10155398167390012"
+			       "id":id
 			   }
 		}).done(function(data){
-			console.log(data);
+
+
 			return data;
 		});		
 	}
@@ -40,7 +53,7 @@ var getMyLinks = function(callback) {
 };
 
 //fetch friends links(needs token)
-var getFriendsLinks = function(callback) {	
+var getFriendsLinks = function(id) {	
 	//TODO check whether token exist
 
 
@@ -51,10 +64,13 @@ var getFriendsLinks = function(callback) {
 			type: 'GET',
 			url: baseURL + '/api/links/friendsLinks',
 			headers: {
-			       "id":"10206432467109292"
+			       "id":id
 			   }
 		}).done(function(data){
+			console.log(data);
 			return data;
+			//should return ["www.munchery.com/323jkj4",
+		    //				  "www.uber.com/3oi4u38"]
 		});		
 	}
 };
@@ -65,15 +81,18 @@ var postLink = function(link, id) {
 	var token = getStoredToken();
 
 	if(token) {
+		console.log("sent");
 		$.ajax({
 			type: 'POST',
 			url: baseURL + '/api/links/newLink',
 			dataType: 'JSON',
+			headers: {
+				"access_token":"aCAAWqaDAd9VABAMoG0Aqd62jjLVsiCAAWqaDAd9VABAMoG0Aqd62jjLVsieJMZBxLJtZAKO8PexxVjpLuoKc5CEv3W2zucbGvYEkH93ZAxvYc7R923f5ZBcHfxnGunneoMXZBMrTnANusgl9ZCnmYqJHff9N1imiABGZBXuyDh7pBFAZCtjFVZBDNjmVARqjnJPZB5EcxVgLqCEuHpZCLWgv2ewIRTcNa8hTsZBADzREbR9nn7lIR8ignFeJMZBxLJtZAKO8PexxVjpLuoKc5CEv3W2zucbGvYEkH93ZAxvYc7R923f5ZBcHfxnGunneoMXZBMrTnANusgl9ZCnmYqJHff9N1imiABGZBXuyDh7pBFAZCtjFVZBDNjmVARqjnJPZB5EcxVgLqCEuHpZCLWgv2ewIRTcNa8hTsZBADzREbR9nn7lIR8ignF",
+				"Access-Control-Allow-Headers ": " access_token",
+				"Access-Control-Allow-Origin": "*"
+			},
 			data: {
-				link: link,
-				//userId can be from the token?
-				fbID: "10155398167390012"
-
+				link: link
 			}
 		}).done(function(data){
 			console.log(data);
