@@ -6,16 +6,16 @@
 	color: white;
   	padding-top: 300px;
 	background-image:  url(../images/home_5.jpg);
-    background-size:   cover;                      
+    background-size:   cover;
     background-repeat: no-repeat;
-    background-position: center center;     
+    background-position: center center;
 }
 .navbar{
-	margin-bottom:0px;
+	margin-bottom:10px;
 }
 .headline{
 	font-size: 500%;
-	text-shadow: 3px 3px #121111; 
+	text-shadow: 3px 3px #121111;
 }
 .fbButton{
 	background-color: #525252;
@@ -28,4 +28,9 @@
 }
 .profileContainer{
 	padding:30px;
+}
+
+.col-md-4 {
+	float: right;
+	margin-top: 6px;
 }

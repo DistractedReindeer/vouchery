@@ -34,7 +34,30 @@ var user = {
 
 // private methods
 function fetchUser() {
-  
+
+  return new Promise(function(resolve, reject) {
+      // var user = {
+      //   username: 'Tony Cheng',
+      //   promoCompany: 'Uber',
+      //   promoCodeLink: '1234',
+      //   updatedAt: '2015-05-07T01:13:14.000Z'
+      // }
+      // setCurrentUser(user);
+      resolve(user);
+    /*******************************************
+    $.ajax({
+      method : 'GET',
+      url    : '/some-api-endpoint-to-get-user'
+    }).done(function(resp) {
+      setCurrentUser(resp);
+      resolve(resp);
+    }).fail(function(resp) {
+      _app.userState = false;
+      reject(Error(resp.responseJSON.error));
+    });
+    */
+
+  });
 }
 
 function userLogout() {
@@ -91,9 +114,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getCurrentUserOnStart: function() {
     /*
-    this will be run everytime app is loaded, if the user is loggedin, it will set the current user 
+    this will be run everytime app is loaded, if the user is loggedin, it will set the current user
     and so skipping the sign up page.
-    */  
+    */
   },
 
   emitError: function(message) {
@@ -172,15 +195,19 @@ Dispatcher.register(function(action) {
         AppStore.emit(LOGOUT_EVENT);
       }, errorHandler );
       break;
-    case constants.SAVE_NEW_CODE: 
+    case constants.SAVE_NEW_CODE:
       console.log("************ GOT HERE ******** ")
       SaveCode(action.newCode).then(function(resp) {
         console.log("%%%%%%%% CODE SAVED %%%%%%%%");
         AppStore.emit(CODE_SAVED_EVENT);
-      }, errorHandler); 
+<<<<<<< HEAD:frontend/app/stores/appStore.js
+      }, errorHandler);
       break;
+=======
+      }, errorHandler);
+>>>>>>> change addcode question format, bower install bootstrap, begin changing format of newsfeed:app/stores/appStore.js
 
-    case constants.FETCH_MY_LINKS: 
+    case constants.FETCH_MY_LINKS:
       console.log("------- fetch my link clicked (inside of store)-------- ");
       // fetch all the links
       fetchUserLinks().then(function(data){

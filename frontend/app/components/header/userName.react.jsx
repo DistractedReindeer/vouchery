@@ -6,7 +6,7 @@ var React  = require('react');
 
 var DropdownButton = require('react-bootstrap').DropdownButton,
     MenuItem       = require('react-bootstrap').MenuItem;
-    
+
 var appActions = require('../../actions/appActions');
 
 var UserName = React.createClass({
@@ -25,10 +25,10 @@ var UserName = React.createClass({
     );
   },
 
-  _onUserDropDownClick: function(eventKey){ 
+  _onUserDropDownClick: function(eventKey){
     // debugger;
     switch(eventKey) {
-      case 'logout': 
+      case 'logout':
         appActions.logout();
         break;
       case 'myLinks': 

@@ -15,14 +15,14 @@ var UserName = require('./userName.react.jsx');
 
 var Header = React.createClass({
   render: function() {
-   
+
     var userBlock,
         brand = <div className='mainLogo'>
                   <img src='images/logo.png' className='mainLogo' />
                 </div>;
 
     if(this.props.userState == 'pending' || !this.props.userState) {
-      userBlock = null;      
+      userBlock = null;
     } else if(this.props.userState) {
       userBlock = <div className='userBlock'>
                     <UserName user={this.props.user}/>
@@ -36,5 +36,5 @@ var Header = React.createClass({
     );
   }
 });
-      
+
 module.exports = Header;
