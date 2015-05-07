@@ -14,14 +14,15 @@ var ProfilePage = React.createClass({
     return {
       //username : 'TEST USER',
       username : this.props.user.username,
-      allLinks: this.props.user.links,
-      userpic  : ''
+      promoCompany: this.props.user.promoCompany,
+      promoCodeLink: this.props.user.promoCodeLink,
+      updatedAt: this.props.user.updatedAt
     }
   },
 
   componentWillMount: function() {
-      //********* FETCH ALL THE LINKS THAT BELONG TO THE USER************* 
-      ProfileStore.fetchAllLinks(this.state.username);
+      //********* FETCH ALL THE LINKS THAT BELONG TO THE USER*************
+    ProfileStore.fetchAllLinks(this.state.username);
   },
 
   componentDidMount: function() {
@@ -34,13 +35,14 @@ var ProfilePage = React.createClass({
 
   render: function() {
     console.log("##################################### list of all links");
-    console.dir(this.state.allLinks);
-    var allUserLinks = this.state.allLinks.map(function(item){
-      return (
-        <p>{item}</p>
-        );
-    });
-  
+    console.dir(this.state);
+    var entry = {
+      username: this.state.username,
+      promoCompany: this.state.promoCompany,
+      promoCodeLink: this.state.promoCodeLink,
+      updatedAt: this.state.updatedAt
+    };
+
     return  (
     <div className="container profileContainer">
       <div className="row">
@@ -48,18 +50,17 @@ var ProfilePage = React.createClass({
             <input id="textinput" name="textinput" type="text" placeholder="filter list" className="form-control input-md" />
           </div>
           <div className="col-md-4">
-              <button className='btn btn-lg btn-primary' type='button' onClick={this._goToAddCode}>Add Code</button>
+              <button className='btn btn-lg btn-primary' type='button' onClick={this._goToAddCode}>Submit A Code</button>
           </div>
       </div>
-      <div className="row"> 
-          <p>{this.state.username}</p>
-          {allUserLinks}
+      <div className="row">
+          {entry}
       </div>
     </div>
     );
 
   },
-  
+
   _onGetLinks: function() {
     var username = this.state.username;
     this.setState({
