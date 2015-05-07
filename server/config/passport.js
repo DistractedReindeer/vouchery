@@ -1,90 +1,38 @@
-// //var FacebookStrategy = require('passport-facebook').Strategy;
-// var FacebookTokenStrategy = require('passport-facebook-token');
-// var db = require('../db');
-// var request = require("request");
+var  FacebookTokenStrategy = require('passport-facebook-token');
+var request = require("request");
 
-// var expressJwt = require('express-jwt');
-// var jwt = require('jsonwebtoken');
-
-// var configAuth = require('./auth.js');
-
-// module.exports = function(passport) {
+var db = require('../db');
+var configAuth = require('./auth.js');
 
 
-//     // used to serialize the user for the session
-//   //   passport.serializeUser(function(user, done) {
-//   //       done(null, 'a');
-//   //   });
+module.exports = function(passport) {
 
-//   //   // used to deserialize the user
-//   //   passport.deserializeUser(function(id, done) {
-// 		// done(null, 'b')
-//   //   });
+	passport.use(new FacebookTokenStrategy({
+		clientID : configAuth.facebookAuth.clientID,
+		clientSecret : configAuth.facebookAuth.clientSecret
+	}, function(accessToken, refereshToken, profile, done) {
+		//find or create User 
+		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName}})
+			.then(function(user){
 
-// 	passport.use(new FacebookStrategy({
+				//update Token if empty, or different
+				db.User.update({fbToken: accessToken}, {where:{fbID: profile.id}})
+					.then( function(){
+						request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
+							//after making fb api call, store list of friends fbid in results
+							var results = JSON.parse(body).data.map(function(user){
+								return user.id;
+							});					
+							//store friends of user in database
+							results.forEach(function(ele){
+								db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
+							});
+						});
 
-//         clientID        : configAuth.facebookAuth.clientID,
-//         clientSecret    : configAuth.facebookAuth.clientSecret,
-//         callbackURL     : configAuth.facebookAuth.callbackURL
-// 	},
+						return done(null, user);
+					})
+			});
 
-// 	function(token, refreshToken, profile, done){
-
-// 		process.nextTick(function(){
-// 			console.log(profile);
-// 			db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName}})
-// 				.then(function(user){
-
-// 					db.User.update({fbToken: token}, {where:{fbID: profile.id}})
-// 						.then( function(){
-
-// 							request("https://graph.facebook.com/me/friends?access_token="+token, function(error, response, body) {
-// 								var results = JSON.parse(body).data.map(function(user){
-// 									return user.id;
-// 								});					
-// 								console.log("results",results);
-
-// 								results.forEach(function(ele){
-// 									console.log(profile.id, ele);
-// 									db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
-// 								});
-
-// 							});
-// 							return done(null, user);
-
-// 						})
-// 				})
-// 			});
-// 	}));
-
-// 	// passport.use(new FacebookTokenStrategy({
-//  //    	clientID: configAuth.facebookAuth.clientID,
-//  //    	clientSecret: configAuth.facebookAuth.clientSecret
-//  //  	},
-//  //  	function(accessToken, refreshToken, profile, done) {
-//  //  		db.User.findOrCreate({where: {fbID: profile.id}})
-//  //  			.then(function(user){
-
-//  //  				db.User.update({fbToken: token}, {where:{fbID: profile.id}})
-//  //  					.then( function(){
-
-//  //  						request("https://graph.facebook.com/me/friends?access_token="+token, function(error, response, body) {
-//  //  							var results = JSON.parse(body).data.map(function(user){
-//  //  								return user.id;
-//  //  							});					
-//  //  							console.log("results",results);
-
-//  //  							results.forEach(function(ele){
-//  //  								console.log(profile.id, ele);
-//  //  								db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
-//  //  							});
-
-//  //  						});	
-//  //  					})
-//  //  				return done(null, user);
-//  //  			});
-//  //  	}
-// 	// ));
-
-
-// };
+	}
+	));
+}

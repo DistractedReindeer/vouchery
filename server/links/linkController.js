@@ -6,16 +6,21 @@ module.exports = {
 	fetchMyLinks: function(req, res, next){
 
 		var user = req.user[0].dataValues.fbID;
-		console.log(req.headers.id);
+		console.log(user);
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
+				console.log(user);
 				db.Link.findAll({where: 
 					{
 						UserId: user.dataValues.id
 					}
 				}).then(function(results){
+
 					res.json(results.map(function(element){
-						return element.promoLink;
+						return {
+							promoLink: element.promoLink,
+							updatedAt: element.updatedAt
+						}
 					}));
 				});
 			});
@@ -31,7 +36,6 @@ module.exports = {
 					return friend.dataValues.friendBiD;
 				});
 
-
 				var postedLinks = [];
 
 				friends.forEach(function(friendId){
@@ -45,14 +49,6 @@ module.exports = {
 							}).then(function(result){
 
 								postedLinks = postedLinks.concat(result.map(function(ele){
-									// console.log(ele.dataValues);
-									// var userName;
-									// db.User.findOne({where: {id: ele.dataValues.UserId}}).
-									// then(function(user){
-									// 	userName = user.dataValues.fbName;
-									// 	console.log("***");
-									// 	console.log(user.dataValues.fbName);
-									// });
 									return {
 										userName: ele.dataValues.fbName,
 										promoLink: ele.dataValues.promoLink,

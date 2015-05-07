@@ -9,6 +9,10 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
+      var access_token =   FB.getAuthResponse()['accessToken'];
+       console.log(access_token);
+       login(access_token);
+
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -26,6 +30,7 @@
   // code below.
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
+      console.log(response);
       statusChangeCallback(response);
     });
   }
@@ -62,7 +67,7 @@
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
+    js.src="https://connect.facebook.net/en_US/all.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
@@ -72,6 +77,7 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('reponse');
+      console.log(response);
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
