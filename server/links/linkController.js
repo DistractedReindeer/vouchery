@@ -5,8 +5,7 @@ module.exports = {
 
 	fetchMyLinks: function(req, res, next){
 
-		//todo: change user to reflect fbID of user
-		var user = req.headers.id;
+		var user = req.user[0].dataValues.fbID;
 		console.log(req.headers.id);
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
@@ -23,7 +22,7 @@ module.exports = {
 	},
 
 	fetchFriendsLinks: function(req, res, next){
-		var user = req.headers.id;
+		var user = req.user[0].dataValues.fbID;
 
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){
@@ -31,12 +30,12 @@ module.exports = {
 				friends = friends.map(function(friend){
 					return friend.dataValues.friendBiD;
 				});
-				console.log(friends);
+
 
 				var postedLinks = [];
 
 				friends.forEach(function(friendId){
-					console.log(friendId);
+
 					db.User.findOne({where: {fbID: friendId}})
 						.then(function(user) {
 							db.Link.findAll({where: 
@@ -44,14 +43,29 @@ module.exports = {
 									UserId: user.dataValues.id
 								}
 							}).then(function(result){
-								postedLinks = postedLinks.concat(result.map(function(ele){return ele.dataValues.promoLink}));
+
+								postedLinks = postedLinks.concat(result.map(function(ele){
+									// console.log(ele.dataValues);
+									// var userName;
+									// db.User.findOne({where: {id: ele.dataValues.UserId}}).
+									// then(function(user){
+									// 	userName = user.dataValues.fbName;
+									// 	console.log("***");
+									// 	console.log(user.dataValues.fbName);
+									// });
+									return {
+										userName: ele.dataValues.fbName,
+										promoLink: ele.dataValues.promoLink,
+										updatedAt: ele.dataValues.updatedAt
+									};
+								}));
+
+
 								res.json(postedLinks);
 							});
 						});
 				});	
 			});
-		//convert friend names to userid
-		//find all links given list of userid
 
 
 	},
@@ -59,13 +73,13 @@ module.exports = {
 	postLink: function(req, res, next){
 
 		var link = req.body.link;
-		var fbID = req.body.fbID;
-
+		var fbID = req.user[0].dataValues.fbID;
 
 		db.User.findOrCreate({where: {fbID: fbID}})
 			.then(function(user){
 				db.Link.findOrCreate({where: 
 					{
+						fbName: user[0].dataValues.fbName,
 						UserId: user[0].dataValues.id,
 						promoLink: link
 					}
