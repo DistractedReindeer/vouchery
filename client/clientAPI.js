@@ -4,7 +4,6 @@
 var baseURL = 'http://localhost:4568';
 
 var login = function(token) {
-	console.log(token, "successfully saved");
 	window.localStorage.setItem( 'vouchery', token);
 };
 
