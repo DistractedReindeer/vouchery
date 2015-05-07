@@ -1,5 +1,18 @@
 var Sequelize = require('sequelize');
-var orm = new Sequelize('promo', 'root', '');
+var orm = new Sequelize('promo', 'root', '', {
+	host:'localhost',
+	dialect: 'sqlite',
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+
+  // SQLite only
+  storage: './server/db/db.sqlite'
+});
+
 
 var User = orm.define('User', {
 	fbName: Sequelize.STRING,

@@ -1,7 +1,6 @@
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
+
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -10,8 +9,8 @@
       // Logged into your app and Facebook.
       testAPI();
       var access_token =   FB.getAuthResponse()['accessToken'];
-       console.log(access_token);
-       login(access_token);
+      //save token
+      login(access_token);
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -30,7 +29,6 @@
   // code below.
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
-      console.log(response);
       statusChangeCallback(response);
     });
   }
@@ -76,8 +74,8 @@
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
-      console.log('reponse');
-      console.log(response);
+
+
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
