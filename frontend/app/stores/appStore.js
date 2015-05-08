@@ -10,6 +10,9 @@ var authPopup    = require('../helpers/authPopup');
 
 var SignupStore  = require('./signupStore');
 
+var clientApi = require('../helpers/clientAPI.js');
+
+
 var CHANGE_EVENT    = 'change',
     LOGOUT_EVENT    = 'logout',
     USER_AUTH_EVENT = 'user_auth',
@@ -24,77 +27,28 @@ var _app = {
 
 // private methods
 function fetchUser() {
-  return new Promise(function(resolve, reject) {
-      var user = {
-        username: 'Test User',
-        links:['digitial ocean', 'amazon aws','uber','lyft']
-      }
-      setCurrentUser(user);
-      resolve(user);
-    /*******************************************
-    $.ajax({
-      method : 'GET',
-      url    : '/some-api-endpoint-to-get-user'
-    }).done(function(resp) {
-      setCurrentUser(resp);
-      resolve(resp);
-    }).fail(function(resp) {
-      _app.userState = false;
-      reject(Error(resp.responseJSON.error));
-    });
-    */
-
-  });
+  
 }
 
 function userLogout() {
   return new Promise(function(resolve, reject) {
     // call a apiend point to log out ? will finalize when we have backend
-    $.ajax({
-      method : 'GET',
-      url    : '/logout'
-    }).done(function(resp) {
-      //set everything to null;
-      _app.currentUser = {};
-      _app.userState   = false;
-      resolve();
-    }).fail(function(resp) {
-      reject(Error());
-    })
+
   });
 }
 
-function SaveCode(privacies) {
+function SaveCode(code) {
+  code = code.URL;
   return new Promise(function(resolve, reject) {
-    resolve();
-
-
-    // $.ajax({
-    //   method : 'POST',
-    //   url    : '/someAPIendpoint',
-    //   data   : privacies
-    // }).done(function(resp) {
-    //   resolve(resp);
-    // }).fail(function(resp) {
-    //   reject(Error());
-    // });
+    clientApi.postLink (code, function(){
+          resolve();
+    });
 
   });
 }
 
 function deleteAccount() {
   return new Promise(function(resolve, reject) {
-
-    $.ajax({
-      method: 'DELETE',
-      url: '/api/user'
-    }).done(function(resp) {
-      _app.currentUser = {};
-      _app.userState   = false;
-      resolve();
-    }).fail(function(resp) {
-      reject(Error());
-    });
 
   })
 }
@@ -109,12 +63,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
     /*
     this will be run everytime app is loaded, if the user is loggedin, it will set the current user 
     and so skipping the sign up page.
-    */
-    // fetchUser().then(function(result) {
-    //   setCurrentUser(result);
-    //   _app.userState = true;
-    //   AppStore.emit(USER_AUTH_EVENT);
-    // }, errorHandler );
+    */  
   },
 
   emitError: function(message) {
@@ -160,16 +109,17 @@ Dispatcher.register(function(action) {
   switch(action.type) {
 
     case constants.APP_AUTHENTICATE:
-      authPopup('/routeToFacebookOauth', 'Facebook Oauth popup', function(newUserState) {
-        fetchUser().then(function(result) {
-          //***newUserSatate = pending , or true, when true it means a user is logged in
-          _app.userState = newUserState;
-          AppStore.emit(USER_AUTH_EVENT);
-        }, function(result) {
-          _app.userState = false;
-          SignupStore.emit('user_not_authorized');
-        });
-      });
+      //------------- TEMP WILL REMOVE -----------------
+      var user = {
+        username: 'Test User',
+        links:['digitial ocean', 'amazon aws','uber','lyft']
+      }
+      setCurrentUser(user);
+      //------------- TEMP WILL REMOVE -----------------
+
+      console.log("******* inside of appstore *********");
+      AppStore.emit(USER_AUTH_EVENT);
+
 
       break;
 

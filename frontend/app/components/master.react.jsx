@@ -69,14 +69,6 @@ var Master = React.createClass({
                     </div>;
     if( this.getPath() == '/') {
       return appCanvas;
-    } else if( this.state.userState == 'pending' && this.getPath() != '/' || !this.state.userState) {
-      return (
-        <div>
-          <div>
-            <i className="fa fa-refresh fa-spin"></i>
-          </div>
-        </div>
-        );
     } else {
       return appCanvas;
     }
