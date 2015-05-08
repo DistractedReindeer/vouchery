@@ -26,6 +26,12 @@ var _app = {
   userState: 'pending'
 };
 
+var user = {
+  username: '',
+  links:['dsfds','sdsf'],
+  myLinks:[]
+};
+
 // private methods
 function fetchUser() {
   
@@ -42,6 +48,7 @@ function SaveCode(code) {
   code = code.URL;
   return new Promise(function(resolve, reject) {
     clientApi.postLink (code, function(){
+      console.log("------------ code added to server----");
           resolve();
     });
 
@@ -56,6 +63,15 @@ function fetchUserDisplayName() {
     });
   });
 }
+
+function fetchUserLinks() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getMyLinks(function(data){
+          resolve(data);
+    });
+  });
+}
+
 
 
 //getUserDisplayName
@@ -129,11 +145,7 @@ Dispatcher.register(function(action) {
 
     case constants.APP_AUTHENTICATE:
       //------------- TEMP WILL REMOVE -----------------
-      var user = {
-        username: '',
-        links:['dsfds','sdsf'],
-        myLinks:[]
-      }
+
       fetchUserDisplayName().then(function(result){
         console.log("---------- fetched user name --------" + result);
             user.username = result.userDisplayName;
@@ -163,13 +175,20 @@ Dispatcher.register(function(action) {
     case constants.SAVE_NEW_CODE: 
       console.log("************ GOT HERE ******** ")
       SaveCode(action.newCode).then(function(resp) {
+        console.log("%%%%%%%% CODE SAVED %%%%%%%%");
         AppStore.emit(CODE_SAVED_EVENT);
       }, errorHandler); 
       break;
 
     case constants.FETCH_MY_LINKS: 
       console.log("------- fetch my link clicked (inside of store)-------- ");
-      AppStore.emit(SHOW_MY_LINKS);
+      // fetch all the links
+      fetchUserLinks().then(function(data){
+        console.log("*** linked returned by teh server");
+        console.dir(data);
+        user.myLinks = data;
+        AppStore.emit(SHOW_MY_LINKS);
+      });
       break;
 
     default: break;

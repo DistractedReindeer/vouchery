@@ -94,7 +94,8 @@ module.exports = {
 						promoLink: link
 					}
 				}).then(function(results){
-					res.sendStatus(201);
+					console.log("--------- LINK SAVED TO DB");
+					res.end('yes');
 				});
 			});
 	}

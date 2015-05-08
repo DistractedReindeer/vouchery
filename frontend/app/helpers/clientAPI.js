@@ -59,6 +59,7 @@ var getFriendsLinks = function(callback) {
 var postLink = function(link, callback) {
 	var token = getStoredToken();
 	if(token) {
+		console.log("**** sending to server")
 		$.ajax({
 			type: 'POST',
 			url: baseURL + '/api/links/newLink'+'?access_token=' + token ,
@@ -66,8 +67,9 @@ var postLink = function(link, callback) {
 			data: {
 				link: link
 			}
-		}).done(function(data){
-			callback(data);
+		}).done(function(){
+			console.log("CALLBACK---------------");
+			callback();
 		});
 	}
 }
