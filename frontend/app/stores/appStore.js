@@ -17,7 +17,8 @@ var CHANGE_EVENT    = 'change',
     LOGOUT_EVENT    = 'logout',
     USER_AUTH_EVENT = 'user_auth',
     ERROR_EVENT     = 'error',
-    CODE_SAVED_EVENT = 'code_saved';
+    CODE_SAVED_EVENT = 'code_saved',
+    SHOW_MY_LINKS = 'show_my_links'
 
 // states and props
 var _app = {
@@ -46,6 +47,19 @@ function SaveCode(code) {
 
   });
 }
+
+
+function fetchUserDisplayName() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getUserDisplayName(function(data){
+          resolve(data);
+    });
+  });
+}
+
+
+//getUserDisplayName
+
 
 function deleteAccount() {
   return new Promise(function(resolve, reject) {
@@ -102,6 +116,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CODE_SAVED_EVENT, callback);
   },
 
+  addMyLinksListener: function(callback) {
+    this.on(SHOW_MY_LINKS, callback);
+  }
+
+
 });
 
 Dispatcher.register(function(action) {
@@ -111,14 +130,27 @@ Dispatcher.register(function(action) {
     case constants.APP_AUTHENTICATE:
       //------------- TEMP WILL REMOVE -----------------
       var user = {
-        username: 'Test User',
-        links:['digitial ocean', 'amazon aws','uber','lyft']
+        username: '',
+        links:['dsfds','sdsf'],
+        myLinks:[]
       }
-      setCurrentUser(user);
-      //------------- TEMP WILL REMOVE -----------------
+      fetchUserDisplayName().then(function(result){
+        console.log("---------- fetched user name --------" + result);
+            user.username = result.userDisplayName;
+           setCurrentUser(user);
 
-      console.log("******* inside of appstore *********");
-      AppStore.emit(USER_AUTH_EVENT);
+          //------------- TEMP WILL REMOVE -----------------
+
+          console.log("******* inside of appstore *********");
+          _app.userState = true;
+          AppStore.emit(USER_AUTH_EVENT);
+      });
+
+
+
+
+
+
 
 
       break;
@@ -133,8 +165,13 @@ Dispatcher.register(function(action) {
       SaveCode(action.newCode).then(function(resp) {
         AppStore.emit(CODE_SAVED_EVENT);
       }, errorHandler); 
-
       break;
+
+    case constants.FETCH_MY_LINKS: 
+      console.log("------- fetch my link clicked (inside of store)-------- ");
+      AppStore.emit(SHOW_MY_LINKS);
+      break;
+
     default: break;
   }
 });

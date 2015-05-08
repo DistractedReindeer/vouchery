@@ -16,13 +16,16 @@ var getStoredToken = function() {
 	return window.localStorage.getItem('vouchery');
 };
 
-var getUserDisplayName = function() {
+var getUserDisplayName = function(callback) {
+	console.log("*** inside of helper user name fetch");
 	var token = getStoredToken();
 	if(token) {
 		$.ajax({
 			type: 'GET',
 			url: baseURL + '/api/links/userDisplayName'+'?access_token=' + token 
 		}).done(function(data){
+			console.log("****** DATA BACK *******");
+			console.dir(data);
 			callback(data);
 		});		
 	}
@@ -75,5 +78,6 @@ module.exports ={
 	postLink: postLink,
 	getFriendsLinks: getFriendsLinks,
 	getMyLinks: getMyLinks,
-	getStoredToken: getStoredToken
+	getStoredToken: getStoredToken,
+	getUserDisplayName:getUserDisplayName
 }

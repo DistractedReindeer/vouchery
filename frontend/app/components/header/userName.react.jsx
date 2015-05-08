@@ -18,6 +18,9 @@ var UserName = React.createClass({
         <MenuItem eventKey='logout' onClick={this._onUserDropDownClick.bind(this,'logout')} header={true} className='b-menu-item'>
           <span>Log Out</span>
         </MenuItem>
+        <MenuItem eventKey='myLinks' onClick={this._onUserDropDownClick.bind(this,'myLinks')} header={true} className='b-menu-item'>
+          <span>My Links</span>
+        </MenuItem>
       </DropdownButton>
     );
   },
@@ -27,6 +30,9 @@ var UserName = React.createClass({
     switch(eventKey) {
       case 'logout': 
         appActions.logout();
+        break;
+      case 'myLinks': 
+        appActions.myLink();
         break;
       default: break;
     }
