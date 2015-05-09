@@ -50,6 +50,9 @@ var Master = React.createClass({
     AppStore.addUserAuthListener(this._onUserAuth);
     AppStore.addLogoutListener(this._onLogout);
 
+    AppStore.addMyLinksListener(this._onShowMyLinks);
+
+
   },
 
   componentWillUpdate: function(nextProps, nextState) {
@@ -82,6 +85,10 @@ var Master = React.createClass({
 
   _onUnauthenticated: function() {
     this.transitionTo('/');
+  },
+
+  _onShowMyLinks: function() {
+    this.transitionTo('myLinks');
   },
 
   _onLogout: function() {

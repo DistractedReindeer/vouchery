@@ -17,12 +17,19 @@ var CHANGE_EVENT    = 'change',
     LOGOUT_EVENT    = 'logout',
     USER_AUTH_EVENT = 'user_auth',
     ERROR_EVENT     = 'error',
-    CODE_SAVED_EVENT = 'code_saved';
+    CODE_SAVED_EVENT = 'code_saved',
+    SHOW_MY_LINKS = 'show_my_links'
 
 // states and props
 var _app = {
   currentUser: {},
   userState: 'pending'
+};
+
+var user = {
+  username: '',
+  links:['dsfds','sdsf'],
+  myLinks:[]
 };
 
 // private methods
@@ -41,11 +48,34 @@ function SaveCode(code) {
   code = code.URL;
   return new Promise(function(resolve, reject) {
     clientApi.postLink (code, function(){
+      console.log("------------ code added to server----");
           resolve();
     });
 
   });
 }
+
+
+function fetchUserDisplayName() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getUserDisplayName(function(data){
+          resolve(data);
+    });
+  });
+}
+
+function fetchUserLinks() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getMyLinks(function(data){
+          resolve(data);
+    });
+  });
+}
+
+
+
+//getUserDisplayName
+
 
 function deleteAccount() {
   return new Promise(function(resolve, reject) {
@@ -102,6 +132,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CODE_SAVED_EVENT, callback);
   },
 
+  addMyLinksListener: function(callback) {
+    this.on(SHOW_MY_LINKS, callback);
+  }
+
+
 });
 
 Dispatcher.register(function(action) {
@@ -110,15 +145,24 @@ Dispatcher.register(function(action) {
 
     case constants.APP_AUTHENTICATE:
       //------------- TEMP WILL REMOVE -----------------
-      var user = {
-        username: 'Test User',
-        links:['digitial ocean', 'amazon aws','uber','lyft']
-      }
-      setCurrentUser(user);
-      //------------- TEMP WILL REMOVE -----------------
 
-      console.log("******* inside of appstore *********");
-      AppStore.emit(USER_AUTH_EVENT);
+      fetchUserDisplayName().then(function(result){
+        console.log("---------- fetched user name --------" + result);
+            user.username = result.userDisplayName;
+           setCurrentUser(user);
+
+          //------------- TEMP WILL REMOVE -----------------
+
+          console.log("******* inside of appstore *********");
+          _app.userState = true;
+          AppStore.emit(USER_AUTH_EVENT);
+      });
+
+
+
+
+
+
 
 
       break;
@@ -131,10 +175,22 @@ Dispatcher.register(function(action) {
     case constants.SAVE_NEW_CODE: 
       console.log("************ GOT HERE ******** ")
       SaveCode(action.newCode).then(function(resp) {
+        console.log("%%%%%%%% CODE SAVED %%%%%%%%");
         AppStore.emit(CODE_SAVED_EVENT);
       }, errorHandler); 
-
       break;
+
+    case constants.FETCH_MY_LINKS: 
+      console.log("------- fetch my link clicked (inside of store)-------- ");
+      // fetch all the links
+      fetchUserLinks().then(function(data){
+        console.log("*** linked returned by teh server");
+        console.dir(data);
+        user.myLinks = data;
+        AppStore.emit(SHOW_MY_LINKS);
+      });
+      break;
+
     default: break;
   }
 });

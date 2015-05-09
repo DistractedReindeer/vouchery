@@ -5,10 +5,11 @@ module.exports = {
 
 	//--------- sorry I should move this, cheng -------------
 	fetchUserName: function(req, res, next){
+		console.log("*** got to the server");
 		var user = req.user[0].dataValues.fbID;
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
-				res.json({userDisplayName : fbName});
+				res.json({userDisplayName : user.fbName});
 			});
 	},
 
@@ -93,7 +94,8 @@ module.exports = {
 						promoLink: link
 					}
 				}).then(function(results){
-					res.sendStatus(201);
+					console.log("--------- LINK SAVED TO DB");
+					res.end('yes');
 				});
 			});
 	}

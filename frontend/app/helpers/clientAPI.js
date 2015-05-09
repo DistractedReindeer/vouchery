@@ -16,13 +16,16 @@ var getStoredToken = function() {
 	return window.localStorage.getItem('vouchery');
 };
 
-var getUserDisplayName = function() {
+var getUserDisplayName = function(callback) {
+	console.log("*** inside of helper user name fetch");
 	var token = getStoredToken();
 	if(token) {
 		$.ajax({
 			type: 'GET',
 			url: baseURL + '/api/links/userDisplayName'+'?access_token=' + token 
 		}).done(function(data){
+			console.log("****** DATA BACK *******");
+			console.dir(data);
 			callback(data);
 		});		
 	}
@@ -56,6 +59,7 @@ var getFriendsLinks = function(callback) {
 var postLink = function(link, callback) {
 	var token = getStoredToken();
 	if(token) {
+		console.log("**** sending to server")
 		$.ajax({
 			type: 'POST',
 			url: baseURL + '/api/links/newLink'+'?access_token=' + token ,
@@ -63,8 +67,9 @@ var postLink = function(link, callback) {
 			data: {
 				link: link
 			}
-		}).done(function(data){
-			callback(data);
+		}).done(function(){
+			console.log("CALLBACK---------------");
+			callback();
 		});
 	}
 }
@@ -75,5 +80,6 @@ module.exports ={
 	postLink: postLink,
 	getFriendsLinks: getFriendsLinks,
 	getMyLinks: getMyLinks,
-	getStoredToken: getStoredToken
+	getStoredToken: getStoredToken,
+	getUserDisplayName:getUserDisplayName
 }

@@ -17,6 +17,13 @@ var AppActions = {
       type : constants.APP_LOGOUT
     });
   },
+  
+  myLink: function() {
+    Dispatcher.dispatch({
+      type : constants.FETCH_MY_LINKS
+    });
+  },
+
 
   saveCode: function(newCode) {
     Dispatcher.dispatch({
