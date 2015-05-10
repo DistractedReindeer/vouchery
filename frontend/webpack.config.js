@@ -5,7 +5,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './app/app.jsx'
+    './frontend/frontend/app/app.jsx'
   ],
   output: {
     path: __dirname + '/assets/js/',
