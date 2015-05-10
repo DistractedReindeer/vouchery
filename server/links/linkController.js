@@ -17,15 +17,16 @@ module.exports = {
 	fetchMyLinks: function(req, res, next){
 		console.log("---------- fetching my links -----------");
 		var user = req.user[0].dataValues.fbID;
+		var fbEmail = req.user[0].dataValues.fbEmail;
 		//console.log(user);
 		var userDisplayName = '';
-		db.User.findOne({where: {fbID: user}})
+		db.User.findOne({where: {fbEmail: fbEmail}})
 			.then(function(user) {
 				console.log('--------- user found ID IS ------------------------------->' + user.dataValues.id);
 				console.log(user);
 				db.Link.findAll({where: 
 					{
-						fbID: user.dataValues.fbID
+						fbEmail: user.dataValues.fbEmail
 					}
 				}).then(function(results){
 				console.log('--------- results found ----------' + results);
@@ -86,17 +87,19 @@ module.exports = {
 
 		var link = req.body.link;
 		var fbID = req.user[0].dataValues.fbID;
+		var fbEmail = req.user[0].dataValues.fbEmail;
 		console.log("***************************************************");
 		console.log(req.body);
 
-		db.User.findOrCreate({where: {fbID: fbID}})
+		db.User.findOrCreate({where: {fbEmail: fbEmail}})
 			.then(function(user){
 				db.Link.findOrCreate({where: 
 					{
 						fbName: user[0].dataValues.fbName,
 						UserId: user[0].dataValues.id,
 						promoLink: link,
-						fbID: req.user[0].dataValues.fbID, 
+						fbID: req.user[0].dataValues.fbID,
+						fbEmail: req.user[0].dataValues.fbEmail 
 					}
 				}).then(function(results){
 					console.log("--------- LINK SAVED TO DB");

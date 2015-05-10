@@ -18,7 +18,8 @@ var User = orm.define('User', {
 	fbName: Sequelize.STRING,
 	fbID: Sequelize.STRING,
 	fbToken: Sequelize.STRING,
-
+	fbEmail: Sequelize.STRING,
+	fbPicture: Sequelize.STRING,
 
 });
 
@@ -26,12 +27,16 @@ var Link = orm.define('Link', {
 	promoLink: Sequelize.STRING,
 	fbName: Sequelize.STRING,
 	fbID: Sequelize.STRING,
-
+	fbEmail: Sequelize.STRING,
+	fbEmail: Sequelize.STRING
 });
 
 var FriendsList = orm.define('FriendsList',{
 	friendAiD: Sequelize.STRING,
-	friendBiD: Sequelize.STRING
+	friendBiD: Sequelize.STRING,
+	friendAEmail: Sequelize.STRING,
+	friendBEmail: Sequelize.STRING
+
 });
 
 
