@@ -24,6 +24,7 @@
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.0",
     "grunt-shell": "^1.1.2",
+    "grunt-webpack": "^1.0.8",
     "jquery": "^2.1.4",
     "jsx-loader": "^0.12.2",
     "karma": "^0.12.31",

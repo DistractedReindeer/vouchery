@@ -1,4 +1,3 @@
-
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -87,7 +86,7 @@ module.exports = function(grunt) {
     },
     concurrent: {
       target: {
-        tasks:['shell:webpackServer', 'shell:start'],
+        tasks:['webpack:budlejs', 'shell:start'],
         options: {
                 logConcurrentOutput: true
             }
@@ -98,9 +97,42 @@ module.exports = function(grunt) {
             command: 'node ./frontend/frontend/webpackServer.js'
         },
         start: {
-            command: 'node server.js'
+            command: 'node server.js --production'
         }
     },
+  webpack: {
+    budlejs: {
+      devtool: 'eval',
+      // webpack options 
+      entry: "./frontend/frontend/app/app.jsx",
+      output: {
+          path: "frontend/frontend/assets/js/",
+          filename: "bundle.js",
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx']
+      },
+      
+      stats: {
+          colors: false,
+          modules: true,
+          reasons: true
+      },
+      module: {
+        loaders: [{
+          test: /\.jsx$/,
+          loaders: ['jsx-loader', 'jsx?harmony']
+        }]
+      },
+      progress: true, 
+      failOnError: true, 
+      watch: true, 
+      keepalive: true,
+    },
+  }
+
+
+
   });
 
 
@@ -112,6 +144,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-docco');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-webpack');
+
 
 
   grunt.registerTask('server-dev', function (target) {
