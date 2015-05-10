@@ -87,7 +87,10 @@ module.exports = function(grunt) {
     },
     concurrent: {
       target: {
-        tasks:['shell:webpackServer', 'shell:start']
+        tasks:['shell:webpackServer', 'shell:start'],
+        options: {
+                logConcurrentOutput: true
+            }
       }
     },
    shell: {
