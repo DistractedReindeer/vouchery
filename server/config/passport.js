@@ -11,6 +11,8 @@ module.exports = function(passport) {
 		clientID : configAuth.facebookAuth.clientID,
 		clientSecret : configAuth.facebookAuth.clientSecret
 	}, function(accessToken, refereshToken, profile, done) {
+				console.log("###############################################");
+				console.log(profile);
 		//find or create User 
 		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName}})
 			.then(function(user){
@@ -21,6 +23,7 @@ module.exports = function(passport) {
 						request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
 							//after making fb api call, store list of friends fbid in results
 							var results = JSON.parse(body).data.map(function(user){
+
 								return user.id;
 							});					
 							//store friends of user in database

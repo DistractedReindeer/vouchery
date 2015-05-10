@@ -15,20 +15,24 @@ module.exports = {
 
 
 	fetchMyLinks: function(req, res, next){
-
+		console.log("---------- fetching my links -----------");
 		var user = req.user[0].dataValues.fbID;
-		console.log(user);
+		//console.log(user);
 		var userDisplayName = '';
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
+				console.log('--------- user found ID IS ------------------------------->' + user.dataValues.id);
 				console.log(user);
 				db.Link.findAll({where: 
 					{
-						UserId: user.dataValues.id
+						fbID: user.dataValues.fbID
 					}
 				}).then(function(results){
+				console.log('--------- results found ----------' + results);
 
 					res.json(results.map(function(element){
+					console.log('--------- elements> ----------' + element.promoLink);
+
 						return {
 							promoLink: element.promoLink,
 							updatedAt: element.updatedAt
@@ -91,7 +95,8 @@ module.exports = {
 					{
 						fbName: user[0].dataValues.fbName,
 						UserId: user[0].dataValues.id,
-						promoLink: link
+						promoLink: link,
+						fbID: req.user[0].dataValues.fbID, 
 					}
 				}).then(function(results){
 					console.log("--------- LINK SAVED TO DB");
