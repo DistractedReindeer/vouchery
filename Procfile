@@ -1,1 +1,1 @@
-web: ./node_modules/grunt-cli/bin/grunt grunt
+web: ./node_modules/grunt-cli/bin/grunt default
