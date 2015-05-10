@@ -85,9 +85,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    concurrent: {
+      target: {
+        tasks:['shell:webpackServer', 'shell:start']
+      }
+    },
    shell: {
-        makeDir: {
+        webpackServer: {
             command: 'node ./frontend/frontend/webpackServer.js'
+        },
+        start: {
+            command: 'node server.js'
         }
     },
   });
@@ -100,6 +108,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-docco');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-concurrent');
 
 
   grunt.registerTask('server-dev', function (target) {
@@ -120,7 +129,7 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
 grunt.registerTask('default', [
-    'shell'
+    'concurrent:target'
   ]);
 
   grunt.registerTask('test', [
