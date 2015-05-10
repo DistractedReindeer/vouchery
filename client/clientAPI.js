@@ -1,7 +1,9 @@
 /*
 *	Client API
 */
-var baseURL = 'http://localhost:4568';
+
+var isProduction = process.env.NODE_ENV === 'production';
+var baseURL = isProduction ? 'distractedreindeer.herokuapp.com' : 'http://localhost:4568' ;
 
 var login = function(token) {
 	window.localStorage.setItem( 'vouchery', token);
