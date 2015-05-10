@@ -116,7 +116,6 @@ grunt.registerTask('default', [
   ]);
 
   grunt.registerTask('test', [
-    'karma'
   ]);
 
   grunt.registerTask('build', []);
