@@ -1,0 +1,16 @@
+{
+  "name": "distracted reindeer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/georgelam0306/hrapp",
+  "authors": [
+    "zhen <xxgiamxx@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

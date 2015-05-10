@@ -1,0 +1,31 @@
+.mainLogo{
+    width:240px;
+}
+.hero{
+	height:800px;
+	color: white;
+  	padding-top: 300px;
+	background-image:  url(../images/home_5.jpg);
+    background-size:   cover;                      
+    background-repeat: no-repeat;
+    background-position: center center;     
+}
+.navbar{
+	margin-bottom:0px;
+}
+.headline{
+	font-size: 500%;
+	text-shadow: 3px 3px #121111; 
+}
+.fbButton{
+	background-color: #525252;
+  	border-color: #FFFFFF;
+  	width:30%;
+}
+.userBlock{
+	float: right;
+	margin-top: 6px;
+}
+.profileContainer{
+	padding:30px;
+}
