@@ -25,11 +25,13 @@
     "karma-requirejs": "^0.2.2",
     "karma-sinon": "^1.0.4",
     "knex": "^0.7.6",
+
     "mocha": "^2.2.4",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "requirejs": "^2.1.17",
     "sinon": "^1.14.1",
+
     "sqlite3": "^3.0.5"
   },
   "devDependencies": {
