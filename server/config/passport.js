@@ -8,8 +8,8 @@ var configAuth = require('./auth.js');
 module.exports = function(passport) {
 
 	passport.use(new FacebookTokenStrategy({
-		clientID : process.env.clientID,
-		clientSecret : process.env.clientSecret
+		clientID : process.env.ClientID,
+		clientSecret : process.env.ClientSecret
 	}, function(accessToken, refereshToken, profile, done) {
 		//find or create User 
 		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName}})
