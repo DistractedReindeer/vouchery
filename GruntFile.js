@@ -1,3 +1,4 @@
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -83,7 +84,12 @@ module.exports = function(grunt) {
           output: 'docs/'
         }
       }
-    }
+    },
+   shell: {
+        makeDir: {
+            command: 'node ./frontend/frontend/webpackServer.js'
+        }
+    },
   });
 
 
@@ -93,6 +99,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-docco');
+  grunt.loadNpmTasks('grunt-shell');
+
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -112,7 +120,7 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
 grunt.registerTask('default', [
-    'jshint', 'watch'
+    'shell'
   ]);
 
   grunt.registerTask('test', [
