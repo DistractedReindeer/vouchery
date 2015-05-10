@@ -100,11 +100,13 @@ var SignUp = React.createClass({
 
       <div className="hero text-center">
         <hgroup>
-            <h1 className="headline">Share products with friends</h1>        
+            <h1 className="headline">Share <strong>great</strong> products with friends</h1>        
         </hgroup>
+        <br/>
+
 
         <div className="row">
-          <button onClick={this.handleClick} className='btn btn-primary btn-lg'>Login with facebook</button>
+          <button onClick={this.handleClick} className='btn btn-primary btn-lg btn-fb'>    Login with facebook    </button>
 
         </div>      
       </div>
