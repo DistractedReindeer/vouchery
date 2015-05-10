@@ -2,6 +2,14 @@ var db = require('../db');
 
 
 module.exports = { 
+	fetchUserName: function(req, res, next){
+		console.log("*** got to the server");
+		var user = req.user[0].dataValues.fbID;
+		db.User.findOne({where: {fbID: user}})
+			.then(function(user) {
+				res.json({userDisplayName : user.fbName});
+			});
+	},
 
 	fetchMyLinks: function(req, res, next){
 

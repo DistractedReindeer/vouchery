@@ -13,4 +13,7 @@ module.exports = function(app, passport) {
 	//server receives post request when user submits link
 	app.post('/newLink', linksController.postLink);
 
+	app.get('/userDisplayName', linksController.fetchUserName);
+
+
 }
