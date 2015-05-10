@@ -1,3 +1,4 @@
+
 HR app
 - automated attendance
 - pairing
@@ -7,3 +8,12 @@ HR app
 - social info/profile
 - lunch planning
 - 3rd party apps
+
+
+Team Members:
+George
+Sunshine
+Darren
+Cheng
+Quest
+

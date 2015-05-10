@@ -111,6 +111,10 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
+grunt.registerTask('default', [
+    'jshint', 'watch'
+  ]);
+
   grunt.registerTask('test', [
     'karma'
   ]);
