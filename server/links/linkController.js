@@ -1,4 +1,5 @@
 var db = require('../db');
+var request = require("request");
 
 
 module.exports = { 
@@ -52,6 +53,35 @@ module.exports = {
 	 */
 	fetchFriendsLinks: function(req, res, next){
 		var user = req.user[0].dataValues.fbID;
+
+		db.User.findOne({where:{fbID: user}}).then(function(person){
+			request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
+				//after making fb api call, store list of friends fbid in results
+				console.log("frineds---------------------------------------");
+				console.log(JSON.parse(body).data);
+				console.log("frineds---------------------------------------");
+
+
+				var results = JSON.parse(body).data.map(function(user){
+
+					return user.id;
+				});					
+				//store friends of user in database
+				results.forEach(function(ele){
+					db.FriendsList.findOrCreate({where:{friendAiD:person.dataValues.fbID, friendBiD:ele}});
+				});
+			});
+		});
+
+
+
+
+
+
+
+
+
+
 
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){

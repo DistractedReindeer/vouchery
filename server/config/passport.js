@@ -27,22 +27,22 @@ module.exports = function(passport) {
 				//update Token if empty, or different
 				// db.User.update({fbToken: accessToken}, {where:{fbID: profile.id}})
 					.then( function(){
-						request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
-							//after making fb api call, store list of friends fbid in results
-															console.log("frineds---------------------------------------");
-															console.log(JSON.parse(body).data);
-																														console.log("frineds---------------------------------------");
+						// request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
+						// 	//after making fb api call, store list of friends fbid in results
+						// 	console.log("frineds---------------------------------------");
+						// 	console.log(JSON.parse(body).data);
+						// 	console.log("frineds---------------------------------------");
 
 
-							var results = JSON.parse(body).data.map(function(user){
+						// 	var results = JSON.parse(body).data.map(function(user){
 
-								return user.id;
-							});					
-							//store friends of user in database
-							results.forEach(function(ele){
-								db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
-							});
-						});
+						// 		return user.id;
+						// 	});					
+						// 	//store friends of user in database
+						// 	results.forEach(function(ele){
+						// 		db.FriendsList.findOrCreate({where:{friendAiD:profile.id.toString(), friendBiD:ele}});
+						// 	});
+						// });
 
 						return done(null, user);
 					})
