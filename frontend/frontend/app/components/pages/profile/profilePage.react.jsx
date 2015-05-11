@@ -5,42 +5,51 @@
 var React  = require('react');
 var Router = require('react-router');
 var ProfileStore = require('../../../stores/profileStore');
+var AppActions   = require('../../../actions/appActions');
+var AppStore = require('../../../stores/appStore');
+var Search = require('react-search');
+
 
 var ProfilePage = React.createClass({
 
   mixins: [Router.Navigation, Router.States],
 
   getInitialState: function() {
+          console.log("this prop user -------" + this.props.user);
+          console.dir(this.props.user);
+
     return {
       //username : 'TEST USER',
-      username : this.props.user.username,
-      allLinks: this.props.user.links,
-      userpic  : ''
+      // username : this.props.user.username,
+      friendsLinks: this.props.user.links,
+      // userpic  : ''
     }
   },
 
   componentWillMount: function() {
-      //********* FETCH ALL THE LINKS THAT BELONG TO THE USER************* 
-      ProfileStore.fetchAllLinks(this.state.username);
+      //********* FETCH ALL THE LINKS THAT BELONG TO THE USER*************
+      // ProfileStore.fetchAllLinks(this.state.username);
   },
 
   componentDidMount: function() {
-    ProfileStore.addOnGetLinksListener(this._onGetLinks);
+    AppActions.getFriendsLinks();
+    AppStore.addFriendsLinksListener(this._showLinks);
+    // ProfileStore.addOnGetLinksListener(this._onGetLinks);
   },
 
   componentWillUnmount: function() {
-    ProfileStore.removeOnGetLinksListener(this._onGetLinks);
+    // ProfileStore.removeOnGetLinksListener(this._onGetLinks);
   },
 
   render: function() {
-    console.log("##################################### list of all links");
-    console.dir(this.state.allLinks);
-    var allUserLinks = this.state.allLinks.map(function(item){
+
+    var allFriendsLinks = this.state.friendsLinks.map(function(item){
       return (
         <p>{item}</p>
         );
     });
-  
+    console.log('TH ESE ARE ALL YOUR FRIENDS LINKS', allFriendsLinks);
+
     return  (
     <div className="container profileContainer">
       <div className="row">
@@ -51,21 +60,30 @@ var ProfilePage = React.createClass({
               <button className='btn btn-lg btn-primary' type='button' onClick={this._goToAddCode}>Add Code</button>
           </div>
       </div>
-      <div className="row"> 
-          <p>{this.state.username}</p>
-          {allUserLinks}
+      <div className="row">
+          <p>these are the latest links from your friends:</p>
+          <div> {allFriendsLinks} </div>
+
       </div>
     </div>
     );
 
   },
-  
+
   _onGetLinks: function() {
     var username = this.state.username;
     this.setState({
       username : username,
     });
   },
+  _showLinks: function(){
+    console.log ("$$$$$$$$$$$$$$$$$$");
+    this.setState({
+      friendsLinks : this.props.user.links,
+    });
+
+  },
+
 
   _goToAddCode: function() {
     this.transitionTo('addCode');

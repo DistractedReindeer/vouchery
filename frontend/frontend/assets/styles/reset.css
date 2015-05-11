@@ -1,47 +1,21 @@
-body {
-   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-   font-weight: 300;
-}
 .mainLogo{
-	height: 40px;
-}
-.btn-fb {
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0);
-  border-color: #FFFFFF;
+    width:240px;
 }
 .hero{
-  top: 0px;
-  height: 800px;
-  color: white;
-  padding-top: 300px;
-  background-image: url(../images/home_10.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  position: absolute;
-  width: 100%;    
+	height:800px;
+	color: white;
+  	padding-top: 300px;
+	background-image:  url(../images/home_5.jpg);
+    background-size:   cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 .navbar{
-	margin-bottom:0px;
-}
-.navbar_landing{
-	margin-bottom:0px;
-	background-color: rgba(248, 248, 248, 0);
-	z-index: 100;
-  	margin-bottom: 0px;
-  	border-bottom: solid 1px;
-  	border-top: none;
-  	border-right: none;
-  	border-left: none;
-  	border-color: #FFFFFF;
-
-}
-.navbar-brand {
-	padding: 3px;
+	margin-bottom:10px;
 }
 .headline{
-	font-size: 400%;
+	font-size: 500%;
+	text-shadow: 3px 3px #121111;
 }
 .fbButton{
 	background-color: #525252;
@@ -54,4 +28,9 @@ body {
 }
 .profileContainer{
 	padding:30px;
+}
+
+.col-md-4 {
+	float: right;
+	margin-top: 6px;
 }

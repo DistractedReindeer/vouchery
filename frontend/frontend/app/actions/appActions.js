@@ -17,13 +17,18 @@ var AppActions = {
       type : constants.APP_LOGOUT
     });
   },
-  
+
   myLink: function() {
     Dispatcher.dispatch({
       type : constants.FETCH_MY_LINKS
     });
   },
 
+  getFriendsLinks: function() {
+    Dispatcher.dispatch({
+      type: constants.FETCH_FRIENDS_LINKS
+    })
+  },
 
   saveCode: function(newCode) {
     Dispatcher.dispatch({
@@ -39,7 +44,8 @@ var AppActions = {
     Dispatcher.dispatch({
       type : constants.APP_DELETE
     });
-  },
+  }
+
 };
 
 module.exports = AppActions;

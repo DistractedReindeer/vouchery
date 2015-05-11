@@ -13,23 +13,16 @@ var Navbar = require('react-bootstrap').Navbar,
 
 var UserName = require('./userName.react.jsx');
 
-
 var Header = React.createClass({
-
-
   render: function() {
-//var currentRoutes = this.context.router.getCurrentRoutes();
-var currentPath = window.location.href[window.location.href.length -1];
-  console.log("--------------- CURRENT ROUTE----------> " + currentPath);
-  var headerClassName = currentPath === '/' ? 'navbar_landing' : 'navbar';
-  
+
     var userBlock,
         brand = <div className='mainLogo'>
-                  <img src='images/logo4.png' className='mainLogo' />
+                  <img src='images/logo.png' className='mainLogo' />
                 </div>;
 
     if(this.props.userState == 'pending' || !this.props.userState) {
-      userBlock = null;      
+      userBlock = null;
     } else if(this.props.userState) {
       userBlock = <div className='userBlock'>
                     <UserName user={this.props.user}/>
@@ -37,11 +30,11 @@ var currentPath = window.location.href[window.location.href.length -1];
     }
 
     return (
-      <Navbar className={headerClassName} brand={brand}>
+      <Navbar className='' brand={brand}>
         {userBlock}
       </Navbar>
     );
   }
 });
-      
+
 module.exports = Header;

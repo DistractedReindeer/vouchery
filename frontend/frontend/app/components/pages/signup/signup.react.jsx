@@ -27,9 +27,9 @@ var SignUp = React.createClass({
       window.fbAsyncInit = function() {
       FB.init({
         appId      : '1594739344143696',
-        cookie     : true,  
-        xfbml      : true,  
-        version    : 'v2.2' 
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v2.2'
       });
       FB.Event.subscribe('auth.login', function () {
           that.checkLoginState();
@@ -93,22 +93,20 @@ var SignUp = React.createClass({
     }.bind(this));
   },
   handleClick: function() {
-    FB.login(this.checkLoginState());
+    FB.login(this.checkLoginState(), {scope: 'email,user_friends'});
   },
   render: function() {
     return(
 
       <div className="hero text-center">
         <hgroup>
-            <h1 className="headline">Share <strong>great</strong> products with friends</h1>        
+            <h1 className="headline">Share products with friends</h1>
         </hgroup>
-        <br/>
-
 
         <div className="row">
-          <button onClick={this.handleClick} className='btn btn-primary btn-lg btn-fb'>    Login with facebook    </button>
+          <button scope="user_friends" onClick={this.handleClick} className='btn btn-primary btn-lg'>Login with facebook</button>
 
-        </div>      
+        </div>
       </div>
 
     );
