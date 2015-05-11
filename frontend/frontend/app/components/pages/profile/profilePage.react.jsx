@@ -44,9 +44,30 @@ var ProfilePage = React.createClass({
 
     var allFriendsLinks = this.state.friendsLinks.map(function(item){
       return (
-        <p>{item}</p>
+
+
+        <div className="col-xs-12 col-sm-4">
+            <div className="panel panel-default panel-google-plus">
+                <div className="panel-heading">
+                    <img className="img-circle pull-left fbImage" src={item.fbPicture}  />
+                    <h3>{item.userName}</h3>
+                    <h5><span>Shared publicly</span> - <span>{item.updatedAt}</span> </h5>
+                </div>
+                <div className="panel-body">
+                    <a className="panel-google-plus-image" href={item.promoLink}>
+                        <img src={item.linkThumbnail} />
+                    </a>
+                </div>     
+            </div>
+        </div>
+
+
+
+
         );
     });
+
+
     console.log('TH ESE ARE ALL YOUR FRIENDS LINKS', allFriendsLinks);
 
     return  (
