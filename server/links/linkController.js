@@ -6,11 +6,9 @@ var request = require("request");
 var validUrl = require('valid-url');
 
 
-
-
 module.exports = { 
 	fetchUserName: function(req, res, next){
-		console.log("*** got to the server");
+
 		var user = req.user[0].dataValues.fbID;
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
@@ -29,9 +27,10 @@ module.exports = {
 	fetchMyLinks: function(req, res, next){
 
 		var user = req.user[0].dataValues.fbID;
+
 		db.User.findOne({where: {fbID: user.toString()}})
 			.then(function(user) {
-				console.log(user);
+
 				db.Link.findAll({where: 
 					{
 						UserId: user.dataValues.id
@@ -64,6 +63,7 @@ module.exports = {
 		db.User.findOne({where:{fbID: user}}).then(function(person){
 			request("https://graph.facebook.com/me/friends?access_token="+person.dataValues.fbToken, function(error, response, body) {
 				//after making fb api call, store list of friends fbid in results
+
 				var results = JSON.parse(body).data.map(function(user){
 					return user.id;
 				});					
@@ -133,6 +133,7 @@ module.exports = {
 	 * @return 
 	 */
 	postLink: function(req, res, next){
+
 		var link = req.body.link;
 		var fbID = req.user[0].dataValues.fbID;
 		var fbName = req.user[0].dataValues.fbName;
@@ -145,9 +146,8 @@ module.exports = {
 			var stream = screenshot(link, '1024x768', {crop: true});
 			stream.pipe(fs.createWriteStream(basePath + imageName));
 			imageURL = '/linkThumbnails/' + imageName;
-
 			stream.on('finish', function(){
-			  console.log('------------------ FINISHED SAVING IMAGE ----------------------');
+
 			});
 		}
 
