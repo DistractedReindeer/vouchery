@@ -11,6 +11,14 @@ module.exports = {
 			});
 	},
 
+	/**
+	 * Description
+	 * @method fetchMyLinks
+	 * @param {} req
+	 * @param {} res
+	 * @param {} next
+	 * @return 
+	 */
 	fetchMyLinks: function(req, res, next){
 
 		var user = req.user[0].dataValues.fbID;
@@ -34,46 +42,83 @@ module.exports = {
 			});
 	},
 
+	/**
+	 * Description
+	 * @method fetchFriendsLinks
+	 * @param {} req
+	 * @param {} res
+	 * @param {} next
+	 * @return 
+	 */
 	fetchFriendsLinks: function(req, res, next){
 		var user = req.user[0].dataValues.fbID;
 
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){
-
-				friends = friends.map(function(friend){
-					return friend.dataValues.friendBiD;
-				});
-
-				var postedLinks = [];
-
-				friends.forEach(function(friendId){
-
-					db.User.findOne({where: {fbID: friendId}})
-						.then(function(user) {
-							db.Link.findAll({where: 
-								{
-									UserId: user.dataValues.id
-								}
-							}).then(function(result){
-
-								postedLinks = postedLinks.concat(result.map(function(ele){
-									return {
-										userName: ele.dataValues.fbName,
-										promoLink: ele.dataValues.promoLink,
-										updatedAt: ele.dataValues.updatedAt
-									};
-								}));
+				if(friends) {
+					friends = friends.map(function(friend){
+						return friend.dataValues.friendBiD;
+					});
 
 
-								res.json(postedLinks);
-							});
-						});
-				});	
+
+					var postedLinks = [];
+
+
+					db.User.findAll({where: {fbID: friends}}).
+					 then(function(users) {
+					 	console.log("**********fatcat******");
+					 	console.log(users);
+
+					 	if(users) {
+
+					 		users = users.map(function(user){
+					 			return user.dataValues.id
+					 		});
+
+					 		console.log(users);
+
+					 		db.Link.findAll({where: {UserId: users}}).
+					 			then( function(result){
+					 				console.log("*****RESULTS******");
+					 				console.log(result);
+
+
+					 				postedLinks = postedLinks.concat(result.map(function(ele){
+					 					return {
+					 						userName: ele.dataValues.fbName,
+					 						promoLink: ele.dataValues.promoLink,
+					 						updatedAt: ele.dataValues.updatedAt
+					 					}
+
+					 				}));
+					 				console.log( "***** POSTED LINKS WAHAHAH");
+					 				console.log(postedLinks);
+					 				res.json(postedLinks);
+
+					 			});
+					 	}else {
+
+					 	}
+
+					 });
+				} else {
+					res.json("[]");
+				}
+
 			});
 
 
 	},
 
+	/**
+	 * Description
+	 * @method postLink
+	 * @param {} req
+	 * @param {} res
+	 * @param {} next
+	 * @return 
+	 */
 	postLink: function(req, res, next){
 
 		var link = req.body.link;
