@@ -1,7 +1,7 @@
 var linksController = require('./linkController.js')
 
 /**
- * Links Controller Router
+ * Links Controller Router 
  * @method exports
  * @param {} app
  * @param {} passport
