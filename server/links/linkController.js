@@ -1,11 +1,8 @@
 
-
 var fs = require('fs');
 var screenshot = require('screenshot-stream');
-
 var db = require('../db');
 var request = require("request");
-
 var validUrl = require('valid-url');
 
 
@@ -124,11 +121,6 @@ module.exports = {
 
 			});
 		});
-
-
-
-
-
 
 	},
 
