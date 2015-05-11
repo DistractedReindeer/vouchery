@@ -18,9 +18,9 @@
 
 Team Members:
 
-George Lam
-Sunshine Yin
-Darren Wong
-Cheng Tian
+George Lam,
+Sunshine Yin,
+Darren Wong,
+Cheng Tian,
 Quest Henkart
 
