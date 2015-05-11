@@ -18,7 +18,8 @@ var CHANGE_EVENT    = 'change',
     USER_AUTH_EVENT = 'user_auth',
     ERROR_EVENT     = 'error',
     CODE_SAVED_EVENT = 'code_saved',
-    SHOW_MY_LINKS = 'show_my_links'
+    SHOW_MY_LINKS = 'show_my_links',
+    SHOW_FRIENDS_LINKS = 'show_friends_links';
 
 // states and props
 var _app = {
@@ -26,38 +27,16 @@ var _app = {
   userState: 'pending'
 };
 
+
 var user = {
   username: '',
-  links:['dsfds','sdsf'],
+  links: [],
   myLinks:[]
 };
 
 // private methods
 function fetchUser() {
 
-  return new Promise(function(resolve, reject) {
-      // var user = {
-      //   username: 'Tony Cheng',
-      //   promoCompany: 'Uber',
-      //   promoCodeLink: '1234',
-      //   updatedAt: '2015-05-07T01:13:14.000Z'
-      // }
-      // setCurrentUser(user);
-      resolve(user);
-    /*******************************************
-    $.ajax({
-      method : 'GET',
-      url    : '/some-api-endpoint-to-get-user'
-    }).done(function(resp) {
-      setCurrentUser(resp);
-      resolve(resp);
-    }).fail(function(resp) {
-      _app.userState = false;
-      reject(Error(resp.responseJSON.error));
-    });
-    */
-
-  });
 }
 
 function userLogout() {
@@ -95,9 +74,13 @@ function fetchUserLinks() {
   });
 }
 
-
-
-//getUserDisplayName
+function fetchFriendsLinks() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getFriendsLinks(function(data){
+          resolve(data);
+    });
+  });
+}
 
 
 function deleteAccount() {
@@ -157,6 +140,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   addMyLinksListener: function(callback) {
     this.on(SHOW_MY_LINKS, callback);
+  },
+
+  addFriendsLinksListener: function(callback) {
+    this.on(SHOW_FRIENDS_LINKS, callback);
   }
 
 
@@ -182,12 +169,6 @@ Dispatcher.register(function(action) {
       });
 
 
-
-
-
-
-
-
       break;
 
     case constants.APP_LOGOUT:
@@ -200,12 +181,8 @@ Dispatcher.register(function(action) {
       SaveCode(action.newCode).then(function(resp) {
         console.log("%%%%%%%% CODE SAVED %%%%%%%%");
         AppStore.emit(CODE_SAVED_EVENT);
-<<<<<<< HEAD:frontend/app/stores/appStore.js
       }, errorHandler);
       break;
-=======
-      }, errorHandler);
->>>>>>> change addcode question format, bower install bootstrap, begin changing format of newsfeed:app/stores/appStore.js
 
     case constants.FETCH_MY_LINKS:
       console.log("------- fetch my link clicked (inside of store)-------- ");
@@ -215,6 +192,17 @@ Dispatcher.register(function(action) {
         console.dir(data);
         user.myLinks = data;
         AppStore.emit(SHOW_MY_LINKS);
+      });
+      break;
+
+    case constants.FETCH_FRIENDS_LINKS:
+      console.log("------- fetch friends clicked (inside of store)-------- ");
+      // fetch all the links
+      fetchFriendsLinks().then(function(data){
+        console.log("*** linked returned by teh server");
+        console.dir(data);
+        user.links = data;
+        AppStore.emit(SHOW_FRIENDS_LINKS);
       });
       break;
 

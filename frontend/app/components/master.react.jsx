@@ -16,7 +16,7 @@ function getCurrentUser() {
 }
 
 function isAuthenticated(_this, userState) {
-  // ============ if user state is not set , this will redirect people to the default 
+  // ============ if user state is not set , this will redirect people to the default
   // sign up page
   userState = userState ||  _this.state.userState;
   var state = userState;
@@ -27,7 +27,7 @@ function isAuthenticated(_this, userState) {
         _this._onUnauthenticated();
       }
     }
-  
+
 }
 
 
@@ -45,12 +45,13 @@ var Master = React.createClass({
   componentDidMount: function() {
 
     AppStore.getCurrentUserOnStart();
-    // when user is logged in , the appstore will tigger a userAuth event, this passes in the 
+    // when user is logged in , the appstore will tigger a userAuth event, this passes in the
     // call back into the lister, the when userAuth --> _.onUserAuth will run
     AppStore.addUserAuthListener(this._onUserAuth);
     AppStore.addLogoutListener(this._onLogout);
 
     AppStore.addMyLinksListener(this._onShowMyLinks);
+    AppStore.addFriendsLinksListener(this._onUserAuth);
 
 
   },
@@ -93,7 +94,7 @@ var Master = React.createClass({
 
   _onLogout: function() {
     this.setState(getCurrentUser(), function() {
-      this.transitionTo('/');       
+      this.transitionTo('/');
     });
   },
 
