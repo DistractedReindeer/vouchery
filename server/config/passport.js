@@ -1,33 +1,27 @@
 var  FacebookTokenStrategy = require('passport-facebook-token');
 var request = require("request");
-
 var db = require('../db');
 var configAuth = require('./auth.js');
 
 
 /**
- * Description
+ * Passport configuration
  * @method exports
  * @param {} passport
- * @return 
  */
 module.exports = function(passport) {
 
 	passport.use(new FacebookTokenStrategy({
+		//set clientID and clientSecret (from facebook app settings)
 		clientID : process.env.ClientID || configAuth.facebookAuth.clientID,
 		clientSecret : process.env.ClientSecret || configAuth.facebookAuth.clientSecret
 	}, function(accessToken, refereshToken, profile, done) {
-		//find or create User 
-		//db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName, fbEmail: profile.emails[0].value}})
 
+		//find or create user who just logged in
 		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName, fbEmail: profile.emails[0].value, fbPicture: profile.photos[0].value }})
 			.then(function(user){
-				console.log(user);
-				
 
 				user[0].updateAttributes({fbToken: accessToken})
-
-				//update Token if empty, or different
 				// db.User.update({fbToken: accessToken}, {where:{fbID: profile.id}})
 					.then( function(){
 						// request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
