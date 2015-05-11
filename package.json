@@ -56,6 +56,7 @@
     "webpack-dev-server": "^1.7.0"
   },
   "devDependencies": {
+    "karma-chrome-launcher": "^0.1.10",
     "test": "^0.6.0"
   },
   "scripts": {
