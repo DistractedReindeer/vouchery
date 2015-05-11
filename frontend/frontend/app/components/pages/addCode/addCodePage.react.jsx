@@ -53,14 +53,15 @@ var addCodePage = React.createClass({
       }, function(){
         console.log("****************** CODE SUBMITTED**********");
         console.dir(this.state);
-        this._saveCode();   
+        this._saveCode();
+        this.transitionTo("myLinks")   
       });
 
   },
   _onCodeSubmited: function() {
     //go back to profile view **** 
     console.log("********** CODE SEND TO SERVER WOOOOOOOOOT ..almost");
-    this.transitionTo('profile');
+    this.transitionTo('myLinks');
   },
   _saveCode: function(e) {
     AppActions.saveCode(this.state);
