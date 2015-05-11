@@ -31,7 +31,7 @@ var UserName = React.createClass({
       case 'logout':
         appActions.logout();
         break;
-      case 'myLinks': 
+      case 'myLinks':
         appActions.myLink();
         break;
       default: break;

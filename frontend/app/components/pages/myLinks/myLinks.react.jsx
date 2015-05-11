@@ -7,13 +7,13 @@ var Router = require('react-router');
 
 
 var MyLinks = React.createClass({
-	
+
   render: function() {
 
 
   	console.log("-----> " +this.props.user);
   	console.dir(this.props.user.myLinks);
- var links = this.props.user.myLinks.map(function(data){
+    var links = this.props.user.myLinks.map(function(data){
       return (
         <p>{data.promoLink}</p>
         );
@@ -21,7 +21,7 @@ var MyLinks = React.createClass({
 
  console.dir(links);
 
- 
+
     return (
       <div className='container'>
       <p>here are all of my links</p>
