@@ -41,6 +41,8 @@ var getMyLinks = function(callback) {
 			type: 'GET',
 			url: baseURL + '/api/links/myLinks'+'?access_token=' + token
 		}).done(function(data){
+			console.log("************************** my linked returned from the server **********");
+			console.dir(data);
 			callback(data);
 		});
 	}

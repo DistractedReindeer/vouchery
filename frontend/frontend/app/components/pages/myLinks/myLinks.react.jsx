@@ -15,7 +15,11 @@ var MyLinks = React.createClass({
   	console.dir(this.props.user.myLinks);
     var links = this.props.user.myLinks.map(function(data){
       return (
+        <div>
         <p>{data.promoLink}</p>
+        <img src={data.linkThumbnail} />
+        </div>
+
         );
  	});
 

@@ -255,7 +255,10 @@ module.exports = {
 					res.json(results.map(function(element){
 						return {
 							promoLink: element.promoLink,
-							updatedAt: element.updatedAt
+							updatedAt: element.updatedAt,
+				 			userName: element.fbName,
+	 						linkThumbnail: element.linkThumbnail,
+	 						fbPicture: element.fbPicture
 						}
 					}));
 				});
