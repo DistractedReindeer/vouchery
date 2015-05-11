@@ -55,36 +55,51 @@ module.exports = {
 
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){
+				console.log("************** GOT into fetfriends");
+				console.log(friends);
+				if(friends) {
 
-				friends = friends.map(function(friend){
-					return friend.dataValues.friendBiD;
-				});
+					friends = friends.map(function(friend){
+						return friend.dataValues.friendBiD;
+					});
+					console.log("************** GOT into mapfriends");
 
-				var postedLinks = [];
 
-				friends.forEach(function(friendId){
+					var postedLinks = [];
 
-					db.User.findOne({where: {fbID: friendId}})
-						.then(function(user) {
-							db.Link.findAll({where: 
-								{
-									UserId: user.dataValues.id
+					friends.forEach(function(friendId){
+
+						db.User.findOne({where: {fbID: friendId}})
+							.then(function(user) {
+								if( user) {
+									db.Link.findAll({where: 
+										{
+											UserId: user.dataValues.id
+										}
+									}).then(function(result){
+										console.log("posted links concat");
+
+										postedLinks = postedLinks.concat(result.map(function(ele){
+											return {
+												userName: ele.dataValues.fbName,
+												promoLink: ele.dataValues.promoLink,
+												updatedAt: ele.dataValues.updatedAt
+											};
+										}));
+
+										res.json(postedLinks);
+
+									});
 								}
-							}).then(function(result){
-
-								postedLinks = postedLinks.concat(result.map(function(ele){
-									return {
-										userName: ele.dataValues.fbName,
-										promoLink: ele.dataValues.promoLink,
-										updatedAt: ele.dataValues.updatedAt
-									};
-								}));
 
 
-								res.json(postedLinks);
 							});
-						});
-				});	
+							
+					});	
+				} else {
+					res.json("[]");
+				}
+
 			});
 
 
