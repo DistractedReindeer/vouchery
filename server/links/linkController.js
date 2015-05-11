@@ -11,6 +11,14 @@ module.exports = {
 			});
 	},
 
+	/**
+	 * Description
+	 * @method fetchMyLinks
+	 * @param {} req
+	 * @param {} res
+	 * @param {} next
+	 * @return 
+	 */
 	fetchMyLinks: function(req, res, next){
 
 		var user = req.user[0].dataValues.fbID;
@@ -34,6 +42,14 @@ module.exports = {
 			});
 	},
 
+	/**
+	 * Description
+	 * @method fetchFriendsLinks
+	 * @param {} req
+	 * @param {} res
+	 * @param {} next
+	 * @return 
+	 */
 	fetchFriendsLinks: function(req, res, next){
 		var user = req.user[0].dataValues.fbID;
 
@@ -74,6 +90,14 @@ module.exports = {
 
 	},
 
+	/**
+	 * Description
+	 * @method postLink
+	 * @param {} req
+	 * @param {} res
+	 * @param {} next
+	 * @return 
+	 */
 	postLink: function(req, res, next){
 
 		var link = req.body.link;

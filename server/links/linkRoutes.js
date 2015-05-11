@@ -1,5 +1,12 @@
 var linksController = require('./linkController.js')
 
+/**
+ * Description
+ * @method exports
+ * @param {} app
+ * @param {} passport
+ * @return 
+ */
 module.exports = function(app, passport) {
 	//api/links/myLinks
 	//Server receives request for user's posted links

@@ -5,6 +5,12 @@ var db = require('../db');
 var configAuth = require('./auth.js');
 
 
+/**
+ * Description
+ * @method exports
+ * @param {} passport
+ * @return 
+ */
 module.exports = function(passport) {
 
 	passport.use(new FacebookTokenStrategy({
@@ -14,9 +20,12 @@ module.exports = function(passport) {
 		//find or create User 
 		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName}})
 			.then(function(user){
+				console.log(user);
+
+				user[0].updateAttributes({fbToken: accessToken})
 
 				//update Token if empty, or different
-				db.User.update({fbToken: accessToken}, {where:{fbID: profile.id}})
+				// db.User.update({fbToken: accessToken}, {where:{fbID: profile.id}})
 					.then( function(){
 						request("https://graph.facebook.com/me/friends?access_token="+accessToken, function(error, response, body) {
 							//after making fb api call, store list of friends fbid in results
