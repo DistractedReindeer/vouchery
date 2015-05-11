@@ -30,6 +30,12 @@ var AppActions = {
     })
   },
 
+  profile: function() {
+    Dispatcher.dispatch({
+      type: constants.PROFILE
+    })
+  },
+
   saveCode: function(newCode) {
     Dispatcher.dispatch({
       type: constants.SAVE_NEW_CODE,
