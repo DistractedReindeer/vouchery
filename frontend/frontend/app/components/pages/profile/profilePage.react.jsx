@@ -45,7 +45,6 @@ var ProfilePage = React.createClass({
     var allFriendsLinks = this.state.friendsLinks.map(function(item){
       return (
 
-
         <div className="col-xs-12 col-sm-4">
             <div className="panel panel-default panel-google-plus">
                 <div className="panel-heading">
@@ -62,8 +61,6 @@ var ProfilePage = React.createClass({
         </div>
 
 
-
-
         );
     });
 
@@ -72,16 +69,15 @@ var ProfilePage = React.createClass({
 
     return  (
     <div className="container profileContainer">
-      <div className="row">
+      <div className="row search">
           <div className="col-md-7">
             <input id="textinput" name="textinput" type="text" placeholder="filter list" className="form-control input-md" />
           </div>
           <div className="col-md-4">
-              <button className='btn btn-lg btn-primary' type='button' onClick={this._goToAddCode}>Add Code</button>
+              <button className='btn btn-lg btn-primary addCode' type='button' onClick={this._goToAddCode}>Add Code</button>
           </div>
       </div>
       <div className="row">
-          <p>these are the latest links from your friends:</p>
           <div> {allFriendsLinks} </div>
 
       </div>

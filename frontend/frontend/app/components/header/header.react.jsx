@@ -22,11 +22,18 @@ var Header = React.createClass({
 var currentPath = window.location.href[window.location.href.length -1];
   console.log("--------------- CURRENT ROUTE----------> " + currentPath);
   var headerClassName = currentPath === '/' ? 'navbar_landing' : 'navbar';
-  
-    var userBlock,
+  var userBlock;
+  var brand;
+  if(currentPath !== '/'){
+      brand = <div className='mainLogo'>
+                    <img src='images/logo_black.png' className='mainLogo' />
+                  </div>;
+    }else{
         brand = <div className='mainLogo'>
-                  <img src='images/logo4.png' className='mainLogo' />
-                </div>;
+                      <img src='images/logo4.png' className='mainLogo' />
+                    </div>;
+    }
+
 
     if(this.props.userState == 'pending' || !this.props.userState) {
       userBlock = null;      
