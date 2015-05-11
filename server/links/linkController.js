@@ -55,47 +55,53 @@ module.exports = {
 
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){
-				console.log("************** GOT into fetfriends");
-				console.log(friends);
 				if(friends) {
-
 					friends = friends.map(function(friend){
 						return friend.dataValues.friendBiD;
 					});
-					console.log("************** GOT into mapfriends");
+
 
 
 					var postedLinks = [];
 
-					friends.forEach(function(friendId){
 
-						db.User.findOne({where: {fbID: friendId}})
-							.then(function(user) {
-								if( user) {
-									db.Link.findAll({where: 
-										{
-											UserId: user.dataValues.id
-										}
-									}).then(function(result){
-										console.log("posted links concat");
+					db.User.findAll({where: {fbID: friends}}).
+					 then(function(users) {
+					 	console.log("**********fatcat******");
+					 	console.log(users);
 
-										postedLinks = postedLinks.concat(result.map(function(ele){
-											return {
-												userName: ele.dataValues.fbName,
-												promoLink: ele.dataValues.promoLink,
-												updatedAt: ele.dataValues.updatedAt
-											};
-										}));
+					 	if(users) {
 
-										res.json(postedLinks);
+					 		users = users.map(function(user){
+					 			return user.dataValues.id
+					 		});
 
-									});
-								}
+					 		console.log(users);
+
+					 		db.Link.findAll({where: {UserId: users}}).
+					 			then( function(result){
+					 				console.log("*****RESULTS******");
+					 				console.log(result);
 
 
-							});
-							
-					});	
+					 				postedLinks = postedLinks.concat(result.map(function(ele){
+					 					return {
+					 						userName: ele.dataValues.fbName,
+					 						promoLink: ele.dataValues.promoLink,
+					 						updatedAt: ele.dataValues.updatedAt
+					 					}
+
+					 				}));
+					 				console.log( "***** POSTED LINKS WAHAHAH");
+					 				console.log(postedLinks);
+					 				res.json(postedLinks);
+
+					 			});
+					 	}else {
+
+					 	}
+
+					 });
 				} else {
 					res.json("[]");
 				}
