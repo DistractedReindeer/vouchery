@@ -18,7 +18,8 @@ var CHANGE_EVENT    = 'change',
     USER_AUTH_EVENT = 'user_auth',
     ERROR_EVENT     = 'error',
     CODE_SAVED_EVENT = 'code_saved',
-    SHOW_MY_LINKS = 'show_my_links'
+    SHOW_MY_LINKS = 'show_my_links',
+    SHOW_FRIENDS_LINKS = 'show_friends_links';
 
 // states and props
 var _app = {
@@ -26,15 +27,16 @@ var _app = {
   userState: 'pending'
 };
 
+
 var user = {
   username: '',
-  links:['dsfds','sdsf'],
+  links: [],
   myLinks:[]
 };
 
 // private methods
 function fetchUser() {
-  
+
 }
 
 function userLogout() {
@@ -72,9 +74,13 @@ function fetchUserLinks() {
   });
 }
 
-
-
-//getUserDisplayName
+function fetchFriendsLinks() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getFriendsLinks(function(data){
+          resolve(data);
+    });
+  });
+}
 
 
 function deleteAccount() {
@@ -91,9 +97,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getCurrentUserOnStart: function() {
     /*
-    this will be run everytime app is loaded, if the user is loggedin, it will set the current user 
+    this will be run everytime app is loaded, if the user is loggedin, it will set the current user
     and so skipping the sign up page.
-    */  
+    */
   },
 
   emitError: function(message) {
@@ -134,6 +140,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   addMyLinksListener: function(callback) {
     this.on(SHOW_MY_LINKS, callback);
+  },
+
+  addFriendsLinksListener: function(callback) {
+    this.on(SHOW_FRIENDS_LINKS, callback);
   }
 
 
@@ -159,12 +169,6 @@ Dispatcher.register(function(action) {
       });
 
 
-
-
-
-
-
-
       break;
 
     case constants.APP_LOGOUT:
@@ -172,15 +176,15 @@ Dispatcher.register(function(action) {
         AppStore.emit(LOGOUT_EVENT);
       }, errorHandler );
       break;
-    case constants.SAVE_NEW_CODE: 
+    case constants.SAVE_NEW_CODE:
       console.log("************ GOT HERE ******** ")
       SaveCode(action.newCode).then(function(resp) {
         console.log("%%%%%%%% CODE SAVED %%%%%%%%");
         AppStore.emit(CODE_SAVED_EVENT);
-      }, errorHandler); 
+      }, errorHandler);
       break;
 
-    case constants.FETCH_MY_LINKS: 
+    case constants.FETCH_MY_LINKS:
       console.log("------- fetch my link clicked (inside of store)-------- ");
       // fetch all the links
       fetchUserLinks().then(function(data){
@@ -188,6 +192,17 @@ Dispatcher.register(function(action) {
         console.dir(data);
         user.myLinks = data;
         AppStore.emit(SHOW_MY_LINKS);
+      });
+      break;
+
+    case constants.FETCH_FRIENDS_LINKS:
+      console.log("------- fetch friends clicked (inside of store)-------- ");
+      // fetch all the links
+      fetchFriendsLinks().then(function(data){
+        console.log("*** linked returned by teh server");
+        console.dir(data);
+        user.links = data;
+        AppStore.emit(SHOW_FRIENDS_LINKS);
       });
       break;
 

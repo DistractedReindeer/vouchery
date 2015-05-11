@@ -25,12 +25,12 @@ var getUserDisplayName = function(callback) {
 	if(token) {
 		$.ajax({
 			type: 'GET',
-			url: baseURL + '/api/links/userDisplayName'+'?access_token=' + token 
+			url: baseURL + '/api/links/userDisplayName'+'?access_token=' + token
 		}).done(function(data){
 			console.log("****** DATA BACK *******");
 			console.dir(data);
 			callback(data);
-		});		
+		});
 	}
 }
 
@@ -39,23 +39,23 @@ var getMyLinks = function(callback) {
 	if(token) {
 		$.ajax({
 			type: 'GET',
-			url: baseURL + '/api/links/myLinks'+'?access_token=' + token 
+			url: baseURL + '/api/links/myLinks'+'?access_token=' + token
 		}).done(function(data){
 			callback(data);
-		});		
+		});
 	}
 };
 
-var getFriendsLinks = function(callback) {	
-
+var getFriendsLinks = function(callback) {
+	console.log('got to get FRIENDS LINKS IN CLIENTAPI');
 	var token = getStoredToken();
 	if(token) {
 		$.ajax({
 			type: 'GET',
-			url: baseURL + '/api/links/friendsLinks'+'?access_token=' + token 
+			url: baseURL + '/api/links/friendsLinks'+'?access_token=' + token
 		}).done(function(data){
 			callback(data);
-		});		
+		});
 	}
 };
 

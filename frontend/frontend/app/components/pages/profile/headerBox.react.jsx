@@ -8,7 +8,7 @@ var React = require('react');
 var HeaderBox = React.createClass({
 
   render: function() {
-   
+
     return (
       <div className='profileHeader'>
       </div>

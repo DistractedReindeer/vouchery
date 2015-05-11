@@ -11,7 +11,9 @@ var AppConstants = keymirror({
   TRY_TO_SIGNUP : null,
   TOGGLE_FIELD : null,
   SAVE_NEW_CODE : null,
-  FETCH_MY_LINKS : null
+  FETCH_MY_LINKS : null,
+  FETCH_FRIENDS_LINKS: null
+
 });
 
 module.exports = AppConstants;
