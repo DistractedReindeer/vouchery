@@ -23,18 +23,35 @@ body {
   width: 100%;    
 }
 .navbar{
-	margin-bottom:0px;
+  margin-bottom:0px;
+  background-color: rgba(248, 248, 248, 0);
+  z-index: 100;
+  margin-bottom: 0px;
+  border-bottom: solid 1px;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-color: #9E9E9E;
+  border-radius: 0px;
+
 }
+.search{
+  padding-bottom: 30px;
+}
+.addCode{
+  line-height: 70%;
+}
+
 .navbar_landing{
 	margin-bottom:0px;
 	background-color: rgba(248, 248, 248, 0);
 	z-index: 100;
-  	margin-bottom: 0px;
-  	border-bottom: solid 1px;
-  	border-top: none;
-  	border-right: none;
-  	border-left: none;
-  	border-color: #FFFFFF;
+	margin-bottom: 0px;
+	border-bottom: solid 1px;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+	border-color: #FFFFFF;
 
 }
 .navbar-brand {
