@@ -169,7 +169,7 @@ grunt.registerTask('default', [
     'concurrent:target'
   ]);
 
-  grunt.registerTask('test', [
+  grunt.registerTask('test', ['karma'
   ]);
 
   grunt.registerTask('build', []);
