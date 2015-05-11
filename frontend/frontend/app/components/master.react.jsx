@@ -55,6 +55,8 @@ var Master = React.createClass({
 
     AppStore.addProfileListener(this._profile);
 
+    AppStore.addCodeListener(this._addCode);
+
 
 
   },
@@ -89,6 +91,10 @@ var Master = React.createClass({
 
   _profile: function(){
     this.transitionTo('profile');
+  },
+
+  _addCode: function(){
+    this.transitionTo('addCode')
   },
 
   _onUnauthenticated: function() {

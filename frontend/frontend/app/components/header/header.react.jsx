@@ -14,6 +14,8 @@ var appActions = require('../../actions/appActions');
 
 var UserName = require('./userName.react.jsx');
 
+// var addCode = require('../pages/addCode/addCodePage.react.jsx');
+
 
 var Header = React.createClass({
 
@@ -25,6 +27,7 @@ var currentPath = window.location.href[window.location.href.length -1];
   var headerClassName = currentPath === '/' ? 'navbar_landing' : 'navbar';
   var userBlock;
   var brand;
+  var addCode
   if(currentPath !== '/'){
       brand = <div className='mainLogo' eventKey="profile" onClick={this._onUserClick.bind(this, 'profile')} header={true}>
                     <img src='images/logo_black.png' className='mainLogo' eventKey="profile" onClick={this._onUserClick.bind(this, 'profile')} header={true}/>
@@ -39,14 +42,19 @@ var currentPath = window.location.href[window.location.href.length -1];
     if(this.props.userState == 'pending' || !this.props.userState) {
       userBlock = null;      
     } else if(this.props.userState) {
-      userBlock = <div className='userBlock'>
+      userBlock =<ul className="nav navbar-nav navbar-right">
+                  <li> <a className='addCode' type='button' onClick={this._onUserClick.bind(this, 'addCode')} header={true}>Add Code</a></li>
+                  <li className='userBlock'>
                     <UserName user={this.props.user}/>
-                  </div>
+                  </li>
+                </ul>
+                  
     }
-
     return (
       <Navbar className={headerClassName} brand={brand}>
+        {addCode}
         {userBlock}
+        
       </Navbar>
     );
   },
@@ -56,6 +64,9 @@ var currentPath = window.location.href[window.location.href.length -1];
         console.log("logoclicked")
         appActions.profile();
         break;
+      case 'addCode':
+        console.log('addcodeclicked');
+        appActions.addCode();
       default: break;
     }
   }

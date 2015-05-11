@@ -66,16 +66,16 @@ var ProfilePage = React.createClass({
 
 
     console.log('TH ESE ARE ALL YOUR FRIENDS LINKS', allFriendsLinks);
-
+  // <div className="col-md-4">
+          //     <button className='btn btn-lg btn-primary addCode' type='button' onClick={this._goToAddCode}>Add Code</button>
+          // </div>
     return  (
     <div className="container profileContainer">
       <div className="row search">
           <div className="col-md-7">
             <input id="textinput" name="textinput" type="text" placeholder="filter list" className="form-control input-md" />
           </div>
-          <div className="col-md-4">
-              <button className='btn btn-lg btn-primary addCode' type='button' onClick={this._goToAddCode}>Add Code</button>
-          </div>
+        
       </div>
       <div className="row">
           <div> {allFriendsLinks} </div>
