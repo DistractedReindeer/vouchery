@@ -1,19 +1,15 @@
 
-
 var fs = require('fs');
 var screenshot = require('screenshot-stream');
-
 var db = require('../db');
 var request = require("request");
-
 var validUrl = require('valid-url');
-
-
+var async = require('async');
 
 
 module.exports = { 
 	fetchUserName: function(req, res, next){
-		console.log("*** got to the server");
+
 		var user = req.user[0].dataValues.fbID;
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
@@ -32,9 +28,10 @@ module.exports = {
 	fetchMyLinks: function(req, res, next){
 
 		var user = req.user[0].dataValues.fbID;
+
 		db.User.findOne({where: {fbID: user.toString()}})
 			.then(function(user) {
-				console.log(user);
+
 				db.Link.findAll({where: 
 					{
 						UserId: user.dataValues.id
@@ -67,68 +64,65 @@ module.exports = {
 		db.User.findOne({where:{fbID: user}}).then(function(person){
 			request("https://graph.facebook.com/me/friends?access_token="+person.dataValues.fbToken, function(error, response, body) {
 				//after making fb api call, store list of friends fbid in results
+
 				var results = JSON.parse(body).data.map(function(user){
 					return user.id;
 				});					
 				//store friends of user in database
-				results.forEach(function(ele){
-					db.FriendsList.findOrCreate({where:{friendAiD:person.dataValues.fbID, friendBiD:ele}});
-				});
-
-
-			db.FriendsList.findAll({where:{friendAiD: user}})
-				.then(function(friends){
-				if(friends) {
-					friends = friends.map(function(friend){
-						return friend.dataValues.friendBiD;
+				async.eachSeries(results, function(ele, next){
+					db.FriendsList.findOrCreate({where:{friendAiD:person.dataValues.fbID, friendBiD:ele}}).
+					then(function(){
+						next();
 					});
-					var postedLinks = [];
-					db.User.findAll({where: {fbID: friends}}).
-					 then(function(users) {
-					 	if(users.length !== 0) {
-					 		users = users.map(function(user){
-					 			return user.dataValues.id
-					 		});
-					 		console.log(users);
-					 		db.Link.findAll({where: {UserId: users}}).
-					 			then( function(result){
+				}, 
+				function(err){
+
+				db.FriendsList.findAll({where:{friendAiD: user}})
+					.then(function(friends){
+					if(friends) {
+						friends = friends.map(function(friend){
+							return friend.dataValues.friendBiD;
+						});
+						var postedLinks = [];
+						db.User.findAll({where: {fbID: friends}}).
+						 then(function(users) {
+						 	if(users.length !== 0) {
+						 		users = users.map(function(user){
+						 			return user.dataValues.id
+						 		});
+						 		console.log(users);
+						 		db.Link.findAll({where: {UserId: users}}).
+						 			then( function(result){
 
 
-					 				postedLinks = postedLinks.concat(result.map(function(ele){
-					 					return {
-					 						userName: ele.dataValues.fbName,
-					 						promoLink: ele.dataValues.promoLink,
-					 						updatedAt: ele.dataValues.updatedAt,
-					 						linkThumbnail: ele.dataValues.linkThumbnail,
-					 						fbPicture: ele.dataValues.fbPicture
-					 					}
+						 				postedLinks = postedLinks.concat(result.map(function(ele){
+						 					return {
+						 						userName: ele.dataValues.fbName,
+						 						promoLink: ele.dataValues.promoLink,
+						 						updatedAt: ele.dataValues.updatedAt,
+						 						linkThumbnail: ele.dataValues.linkThumbnail,
+						 						fbPicture: ele.dataValues.fbPicture
+						 					}
 
-					 				}));
+						 				}));
 
-					 				res.json(postedLinks);
+						 				res.json(postedLinks);
 
-					 			});
-					 	}else {
+						 			});
+						 	}
 
-					 	}
+						 });
+					} else {
+						res.json("[]");
+					}
 
-					 });
-				} else {
-					res.json("[]");
-				}
-
-			});
-
+				});	
+				});// done with foreach
 
 
+			});//request
 
-			});
 		});
-
-
-
-
-
 
 	},
 
@@ -141,6 +135,7 @@ module.exports = {
 	 * @return 
 	 */
 	postLink: function(req, res, next){
+
 		var link = req.body.link;
 		var fbID = req.user[0].dataValues.fbID;
 		var fbName = req.user[0].dataValues.fbName;
@@ -153,9 +148,8 @@ module.exports = {
 			var stream = screenshot(link, '1024x768', {crop: true});
 			stream.pipe(fs.createWriteStream(basePath + imageName));
 			imageURL = '/linkThumbnails/' + imageName;
-
 			stream.on('finish', function(){
-			  console.log('------------------ FINISHED SAVING IMAGE ----------------------');
+
 			});
 		}
 
