@@ -12,7 +12,8 @@ var AppConstants = keymirror({
   TOGGLE_FIELD : null,
   SAVE_NEW_CODE : null,
   FETCH_MY_LINKS : null,
-  FETCH_FRIENDS_LINKS: null
+  FETCH_FRIENDS_LINKS: null,
+  PROFILE: null
 
 });
 
