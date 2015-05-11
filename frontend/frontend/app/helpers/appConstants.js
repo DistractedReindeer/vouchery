@@ -13,7 +13,8 @@ var AppConstants = keymirror({
   SAVE_NEW_CODE : null,
   FETCH_MY_LINKS : null,
   FETCH_FRIENDS_LINKS: null,
-  PROFILE: null
+  PROFILE: null,
+  ADDCODE: null
 
 });
 

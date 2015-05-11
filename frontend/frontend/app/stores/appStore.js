@@ -20,6 +20,7 @@ var CHANGE_EVENT    = 'change',
     CODE_SAVED_EVENT = 'code_saved',
     SHOW_MY_LINKS = 'show_my_links',
     GO_HOME = "go_home",
+    ADD_CODE = "add_code",
     SHOW_FRIENDS_LINKS = 'show_friends_links';
 
 // states and props
@@ -148,6 +149,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
   },
   addProfileListener: function(callback){
     this.on(GO_HOME, callback);
+  },
+  addCodeListener: function(callback){
+    this.on(ADD_CODE, callback);
   }
 
 
@@ -213,6 +217,11 @@ Dispatcher.register(function(action) {
     case constants.PROFILE:
       console.log("returning to Profile");
       AppStore.emit(GO_HOME);
+      break;
+
+    case constants.ADDCODE:
+      console.log("go to addcode page");
+      AppStore.emit(ADD_CODE);
       break;
 
     default: break;
