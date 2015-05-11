@@ -1,7 +1,7 @@
 var db = require('../db');
 
 
-module.exports = { 
+module.exports = {
 
 	//--------- sorry I should move this, cheng -------------
 	fetchUserName: function(req, res, next){
@@ -22,7 +22,7 @@ module.exports = {
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
 				console.log(user);
-				db.Link.findAll({where: 
+				db.Link.findAll({where:
 					{
 						UserId: user.dataValues.id
 					}
@@ -44,6 +44,9 @@ module.exports = {
 		db.FriendsList.findAll({where:{friendAiD: user}})
 			.then(function(friends){
 
+				console.log("------------------------- FOUND USER ------------ + " + friends);
+
+
 				friends = friends.map(function(friend){
 					return friend.dataValues.friendBiD;
 				});
@@ -54,7 +57,7 @@ module.exports = {
 
 					db.User.findOne({where: {fbID: friendId}})
 						.then(function(user) {
-							db.Link.findAll({where: 
+							db.Link.findAll({where:
 								{
 									UserId: user.dataValues.id
 								}
@@ -72,7 +75,7 @@ module.exports = {
 								res.json(postedLinks);
 							});
 						});
-				});	
+				});
 			});
 
 
@@ -87,7 +90,7 @@ module.exports = {
 
 		db.User.findOrCreate({where: {fbID: fbID}})
 			.then(function(user){
-				db.Link.findOrCreate({where: 
+				db.Link.findOrCreate({where:
 					{
 						fbName: user[0].dataValues.fbName,
 						UserId: user[0].dataValues.id,

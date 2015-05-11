@@ -5,6 +5,7 @@ var appConstants = require('../helpers/appConstants');
 var EventEmitter = require('events').EventEmitter;
 var assign       = require('object-assign');
 var errorHandler = require('../helpers/errorHandler');
+var clientApi = require('../helpers/clientAPI.js');
 
 var events = {
   ALL_LINKS_FETCHED : 'all_links_fetched'
@@ -23,7 +24,7 @@ function fetchAllLinksAJAX(fetchParams) {
   return new Promise(function(resolve, reject) {
     var url = '';
     _fetchedLinks.links = ['microsoft azure', 'digitial ocean'];
-  
+
     resolve();
     // $.ajax({
     //   method: 'GET',
@@ -39,6 +40,14 @@ function fetchAllLinksAJAX(fetchParams) {
     //   reject(Error(resp.responseJSON.error));
     // });
 
+  });
+};
+
+function fetchFriendsLinks() {
+  return new Promise(function(resolve, reject) {
+    clientApi.getFriendsLinks(function(data){
+          resolve(data);
+    });
   });
 }
 
@@ -66,14 +75,10 @@ var ProfileStore = assign({}, EventEmitter.prototype, {
   removeOnGetLinksListener: function(callback) {
     this.removeListener(events.ALL_LINKS_FETCHED, callback);
   },
+
+
 });
 
-Dispatcher.register(function(action) {
 
-  switch(action.type) {
-
-    default: break;
-  }
-});
 
 module.exports = ProfileStore;
