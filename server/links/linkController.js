@@ -4,6 +4,7 @@ var screenshot = require('screenshot-stream');
 var db = require('../db');
 var request = require("request");
 var validUrl = require('valid-url');
+var async = require('async');
 
 
 module.exports = { 
@@ -68,58 +69,59 @@ module.exports = {
 					return user.id;
 				});					
 				//store friends of user in database
-				results.forEach(function(ele){
-					db.FriendsList.findOrCreate({where:{friendAiD:person.dataValues.fbID, friendBiD:ele}});
-				});
-
-
-			db.FriendsList.findAll({where:{friendAiD: user}})
-				.then(function(friends){
-				if(friends) {
-					friends = friends.map(function(friend){
-						return friend.dataValues.friendBiD;
+				async.eachSeries(results, function(ele, next){
+					db.FriendsList.findOrCreate({where:{friendAiD:person.dataValues.fbID, friendBiD:ele}}).
+					then(function(){
+						next();
 					});
-					var postedLinks = [];
-					db.User.findAll({where: {fbID: friends}}).
-					 then(function(users) {
-					 	if(users.length !== 0) {
-					 		users = users.map(function(user){
-					 			return user.dataValues.id
-					 		});
-					 		console.log(users);
-					 		db.Link.findAll({where: {UserId: users}}).
-					 			then( function(result){
+				}, 
+				function(err){
+
+				db.FriendsList.findAll({where:{friendAiD: user}})
+					.then(function(friends){
+					if(friends) {
+						friends = friends.map(function(friend){
+							return friend.dataValues.friendBiD;
+						});
+						var postedLinks = [];
+						db.User.findAll({where: {fbID: friends}}).
+						 then(function(users) {
+						 	if(users.length !== 0) {
+						 		users = users.map(function(user){
+						 			return user.dataValues.id
+						 		});
+						 		console.log(users);
+						 		db.Link.findAll({where: {UserId: users}}).
+						 			then( function(result){
 
 
-					 				postedLinks = postedLinks.concat(result.map(function(ele){
-					 					return {
-					 						userName: ele.dataValues.fbName,
-					 						promoLink: ele.dataValues.promoLink,
-					 						updatedAt: ele.dataValues.updatedAt,
-					 						linkThumbnail: ele.dataValues.linkThumbnail,
-					 						fbPicture: ele.dataValues.fbPicture
-					 					}
+						 				postedLinks = postedLinks.concat(result.map(function(ele){
+						 					return {
+						 						userName: ele.dataValues.fbName,
+						 						promoLink: ele.dataValues.promoLink,
+						 						updatedAt: ele.dataValues.updatedAt,
+						 						linkThumbnail: ele.dataValues.linkThumbnail,
+						 						fbPicture: ele.dataValues.fbPicture
+						 					}
 
-					 				}));
+						 				}));
 
-					 				res.json(postedLinks);
+						 				res.json(postedLinks);
 
-					 			});
-					 	}else {
+						 			});
+						 	}
 
-					 	}
+						 });
+					} else {
+						res.json("[]");
+					}
 
-					 });
-				} else {
-					res.json("[]");
-				}
-
-			});
-
+				});	
+				});// done with foreach
 
 
+			});//request
 
-			});
 		});
 
 	},
