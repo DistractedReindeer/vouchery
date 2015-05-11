@@ -1,3 +1,4 @@
+//Keep this file private
 module.exports = {
 	'facebookAuth' : {
 		'clientID' : '1594739344143696',

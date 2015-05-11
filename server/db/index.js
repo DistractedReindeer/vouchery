@@ -1,4 +1,5 @@
 var Sequelize = require('sequelize');
+//Setting up ORM for sqlite
 var orm = new Sequelize('promo', 'root', '', {
 	host:'localhost',
 	dialect: 'sqlite',
@@ -13,7 +14,7 @@ var orm = new Sequelize('promo', 'root', '', {
   storage: './server/db/db.sqlite'
 });
 
-
+//defining User Model
 var User = orm.define('User', {
 	fbName: Sequelize.STRING,
 	fbID: Sequelize.STRING,
@@ -23,6 +24,7 @@ var User = orm.define('User', {
 
 });
 
+//defining Link Model
 var Link = orm.define('Link', {
 	promoLink: Sequelize.STRING,
 	fbName: Sequelize.STRING,
@@ -34,6 +36,7 @@ var Link = orm.define('Link', {
 
 });
 
+//defining FriendListe Model
 var FriendsList = orm.define('FriendsList',{
 	friendAiD: Sequelize.STRING,
 	friendBiD: Sequelize.STRING,
@@ -41,10 +44,11 @@ var FriendsList = orm.define('FriendsList',{
 	friendBEmail: Sequelize.STRING
 });
 
-
+//describing relationships
 User.hasMany(Link);
 Link.belongsTo(User);
 
+//sync models with database
 User.sync();
 Link.sync();
 FriendsList.sync();

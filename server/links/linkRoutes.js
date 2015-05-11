@@ -1,25 +1,21 @@
 var linksController = require('./linkController.js')
 
 /**
- * Description
+ * Links Controller Router
  * @method exports
  * @param {} app
  * @param {} passport
  * @return 
  */
 module.exports = function(app, passport) {
-	//api/links/myLinks
-	//Server receives request for user's posted links
+
+	//Authenticate any requests that reach this route
 	app.use('/', passport.authenticate('facebook-token', {session:false}));
 
+	/** call relevant linksController methods for different routes**/
 	app.get('/myLinks', linksController.fetchMyLinks);
-
-	//Server receives request for links of user's friends
 	app.get('/friendsLinks', linksController.fetchFriendsLinks);
-
-	//server receives post request when user submits link
 	app.post('/newLink', linksController.postLink);
-
 	app.get('/userDisplayName', linksController.fetchUserName);
 
 
