@@ -7,7 +7,6 @@ var Router = require('react-router');
 var ProfileStore = require('../../../stores/profileStore');
 var AppActions   = require('../../../actions/appActions');
 var AppStore = require('../../../stores/appStore');
-var Search = require('react-search');
 
 
 var ProfilePage = React.createClass({
