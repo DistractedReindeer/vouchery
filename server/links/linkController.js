@@ -1,6 +1,10 @@
 var db = require('../db');
 var request = require("request");
 
+var fs = require('fs');
+var screenshot = require('screenshot-stream');
+
+
 
 module.exports = { 
 	fetchUserName: function(req, res, next){
@@ -23,10 +27,10 @@ module.exports = {
 	fetchMyLinks: function(req, res, next){
 
 		var user = req.user[0].dataValues.fbID;
-		console.log(user);
+		//console.log(user);
 		db.User.findOne({where: {fbID: user}})
 			.then(function(user) {
-				console.log(user);
+				//console.log(user);
 				db.Link.findAll({where: 
 					{
 						UserId: user.dataValues.id
@@ -151,8 +155,26 @@ module.exports = {
 	 */
 	postLink: function(req, res, next){
 
+		console.log("---------------------- posting links ---------------------------------");
+		console.log(req.user[0].dataValues);
+		console.log("---------------------- posting links ---------------------------------");
+
+
 		var link = req.body.link;
 		var fbID = req.user[0].dataValues.fbID;
+		var fbName = req.user[0].dataValues.fbName;
+		var basePath = './frontend/frontend/assets/linkThumbnails/';
+		// creating a unique image file name
+		var imageName = fbName.replace(/\s/g, '') + Math.floor(Date.now() / 1000) + link.replace(/\W/g, '') + '.png';
+		console.log("---------------------- IMAGE NAME ---------------------------------");
+		console.log(imageName);
+		var stream = screenshot(link, '1024x768', {crop: true});
+		stream.pipe(fs.createWriteStream(basePath + imageName));
+
+		stream.on('finish', function(){
+		  console.log('------------------ FINISHED SAVING IMAGE ----------------------');
+		});
+
 
 		db.User.findOrCreate({where: {fbID: fbID}})
 			.then(function(user){
