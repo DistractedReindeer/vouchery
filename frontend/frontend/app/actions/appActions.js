@@ -44,6 +44,11 @@ var AppActions = {
     console.log("----------------- INSIDE OF SAVE CODE ----------------");
     console.dir(newCode);
   },
+  addCode: function(){
+    Dispatcher.dispatch({
+      type: constants.ADDCODE
+    })
+  },
 
 
   deleteUser: function(checked) {
