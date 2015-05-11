@@ -14,16 +14,18 @@ var ProfilePage = React.createClass({
   mixins: [Router.Navigation, Router.States],
 
   getInitialState: function() {
-          console.log("this prop user -------" + this.props.user);
-          console.dir(this.props.user);
 
     return {
-      //username : 'TEST USER',
-      // username : this.props.user.username,
       friendsLinks: this.props.user.links,
-      // userpic  : ''
+      searchString: ''
     }
   },
+
+  handleChange: function(e){
+
+    this.setState({searchString:e.target.value});
+    },
+
 
   componentWillMount: function() {
       //********* FETCH ALL THE LINKS THAT BELONG TO THE USER*************
@@ -41,8 +43,21 @@ var ProfilePage = React.createClass({
   },
 
   render: function() {
+    console.log('FRIENDS LINKS:', this.state.friendsLinks);
 
-    var allFriendsLinks = this.state.friendsLinks.map(function(item){
+    var resultLinks;
+
+    if (this.state.searchString.length > 0) {
+      var searchInput = this.state.searchString;
+      resultLinks = this.state.friendsLinks.filter(function(link) {
+          return link.promoLink.match(searchInput);
+      });
+
+    } else {
+      resultLinks = this.state.friendsLinks;
+    };
+
+    var allFriendsLinks = resultLinks.map(function(item) {
       return (
 
         <div className="col-xs-12 col-sm-4">
@@ -56,30 +71,23 @@ var ProfilePage = React.createClass({
                     <a className="panel-google-plus-image" href={item.promoLink}>
                         <img src={item.linkThumbnail} />
                     </a>
-                </div>     
+                </div>
             </div>
         </div>
 
-
-        );
+    );
     });
 
-
-    console.log('TH ESE ARE ALL YOUR FRIENDS LINKS', allFriendsLinks);
-  // <div className="col-md-4">
-          //     <button className='btn btn-lg btn-primary addCode' type='button' onClick={this._goToAddCode}>Add Code</button>
-          // </div>
     return  (
     <div className="container profileContainer">
       <div className="row search">
           <div className="col-md-7">
-            <input id="textinput" name="textinput" type="text" placeholder="filter list" className="form-control input-md" />
+            <input id="textinput" name="textinput" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search for a link" className="form-control input-md" />
           </div>
         
       </div>
       <div className="row">
           <div> {allFriendsLinks} </div>
-
       </div>
     </div>
     );
@@ -99,7 +107,6 @@ var ProfilePage = React.createClass({
     });
 
   },
-
 
   _goToAddCode: function() {
     this.transitionTo('addCode');
