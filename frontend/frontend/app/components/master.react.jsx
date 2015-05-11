@@ -53,6 +53,9 @@ var Master = React.createClass({
     AppStore.addMyLinksListener(this._onShowMyLinks);
     AppStore.addFriendsLinksListener(this._onUserAuth);
 
+    AppStore.addProfileListener(this._profile);
+
+
 
   },
 
@@ -82,6 +85,10 @@ var Master = React.createClass({
     this.setState(getCurrentUser(), function() {
       this.transitionTo('profile');
     });
+  },
+
+  _profile: function(){
+    this.transitionTo('profile');
   },
 
   _onUnauthenticated: function() {

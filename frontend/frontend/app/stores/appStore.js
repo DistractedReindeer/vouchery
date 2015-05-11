@@ -19,6 +19,7 @@ var CHANGE_EVENT    = 'change',
     ERROR_EVENT     = 'error',
     CODE_SAVED_EVENT = 'code_saved',
     SHOW_MY_LINKS = 'show_my_links',
+    GO_HOME = "go_home",
     SHOW_FRIENDS_LINKS = 'show_friends_links';
 
 // states and props
@@ -144,6 +145,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   addFriendsLinksListener: function(callback) {
     this.on(SHOW_FRIENDS_LINKS, callback);
+  },
+  addProfileListener: function(callback){
+    this.on(GO_HOME, callback);
   }
 
 
@@ -204,6 +208,11 @@ Dispatcher.register(function(action) {
         user.links = data;
         AppStore.emit(SHOW_FRIENDS_LINKS);
       });
+      break;
+
+    case constants.PROFILE:
+      console.log("returning to Profile");
+      AppStore.emit(GO_HOME);
       break;
 
     default: break;

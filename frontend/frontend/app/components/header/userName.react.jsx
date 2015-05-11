@@ -15,11 +15,14 @@ var UserName = React.createClass({
     var username  = this.props.user.username || false;
     return(
       <DropdownButton title={username}>
-        <MenuItem eventKey='logout' onClick={this._onUserDropDownClick.bind(this,'logout')} header={true} className='b-menu-item'>
-          <span>Log Out</span>
+        <MenuItem eventKey='profile' onClick={this._onUserDropDownClick.bind(this,'profile')} header={true} className='b-menu-item'>
+          <span>Home</span>
         </MenuItem>
         <MenuItem eventKey='myLinks' onClick={this._onUserDropDownClick.bind(this,'myLinks')} header={true} className='b-menu-item'>
           <span>My Links</span>
+        </MenuItem>
+        <MenuItem eventKey='logout' onClick={this._onUserDropDownClick.bind(this,'logout')} header={true} className='b-menu-item'>
+          <span>Log Out</span>
         </MenuItem>
       </DropdownButton>
     );
@@ -28,11 +31,14 @@ var UserName = React.createClass({
   _onUserDropDownClick: function(eventKey){ 
     // debugger;
     switch(eventKey) {
-      case 'logout': 
-        appActions.logout();
+      case 'profile': 
+        appActions.profile();
         break;
       case 'myLinks': 
         appActions.myLink();
+        break;
+      case 'logout': 
+        appActions.logout();
         break;
       default: break;
     }
