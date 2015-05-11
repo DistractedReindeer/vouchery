@@ -51,6 +51,7 @@
     "sequelize": "^2.1.0",
     "sinon": "^1.14.1",
     "sqlite3": "^3.0.7",
+    "valid-url": "^1.0.9",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"
   },
