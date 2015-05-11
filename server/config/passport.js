@@ -18,9 +18,12 @@ module.exports = function(passport) {
 		clientSecret : process.env.ClientSecret || configAuth.facebookAuth.clientSecret
 	}, function(accessToken, refereshToken, profile, done) {
 		//find or create User 
-		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName}})
+		//db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName, fbEmail: profile.emails[0].value}})
+
+		db.User.findOrCreate({where: {fbID: profile.id, fbName: profile.displayName, fbEmail: profile.emails[0].value, fbPicture: profile.photos[0].value }})
 			.then(function(user){
 				console.log(user);
+				
 
 				user[0].updateAttributes({fbToken: accessToken})
 
