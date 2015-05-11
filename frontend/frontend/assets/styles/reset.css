@@ -41,6 +41,19 @@ body {
 .addCode{
   line-height: 70%;
 }
+.addLinkRow{
+  margin-top: 45px;
+}
+.addLinkInputBox{
+  height: 300%;
+  line-height: 300%;
+}
+
+.submitCodeButton{
+  margin-top: 40px;
+  height: 300%;
+  line-height: 300%;
+}
 
 .navbar_landing{
 	margin-bottom:0px;

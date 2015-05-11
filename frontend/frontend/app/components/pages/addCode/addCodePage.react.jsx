@@ -31,15 +31,15 @@ var addCodePage = React.createClass({
   render: function() {
     return (
     <div className="container">
-    <div className="row">
-          <div className="col-md-12">
-            <input id="siteUrl" ref="URL" type="text" placeholder="URL" className="form-control input-md" onChange={this._onUrlChange}/>
+    <div className="row addLinkRow">
+          <div className="col-md-9 ">
+            <input id="siteUrl" ref="URL" type="text" placeholder="URL" className="form-control input-md addLinkInputBox" onChange={this._onUrlChange}/>
           </div>
-          <div className="col-md-12">
-            <input id="siteCode" ref="CODE" type="text" placeholder="CODE" className="form-control input-md" onChange={this._onCodeChange}/>
+          <div className="col-md-2">
+            <input id="siteCode" ref="CODE" type="text" placeholder="CODE" className="form-control input-md addLinkInputBox" onChange={this._onCodeChange}/>
           </div>
-          <div className="col-md-4">
-              <button className='btn btn-lg btn-primary' type='button' onClick={this._handleSubmit}>Add Code</button>
+          <div className="text-center addLinkRow">
+              <button className='btn btn-lg btn-primary submitCodeButton' type='button' onClick={this._handleSubmit}>Add Code</button>
           </div>
       </div>
     </div>
