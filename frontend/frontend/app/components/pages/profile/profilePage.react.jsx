@@ -58,6 +58,11 @@ var ProfilePage = React.createClass({
     };
 
     var allFriendsLinks = resultLinks.map(function(item) {
+      var parsedLink = '';
+      var parser = document.createElement('a');
+      parser.href = item.promoLink; 
+      parsedLink = parser.hostname.substring(parser.hostname.indexOf(".")+1, parser.hostname.lastIndexOf('.')).toUpperCase();
+
       return (
 
         <div className="col-xs-12 col-sm-4">
@@ -68,8 +73,10 @@ var ProfilePage = React.createClass({
                     <h5><span>Shared publicly</span> - <span>{item.updatedAt}</span> </h5>
                 </div>
                 <div className="panel-body">
+                    <p> {parsedLink}</p>
                     <a className="panel-google-plus-image" href={item.promoLink}>
                         <img src={item.linkThumbnail} />
+
                     </a>
                 </div>
             </div>
