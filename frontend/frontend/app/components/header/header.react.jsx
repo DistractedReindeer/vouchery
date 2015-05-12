@@ -43,7 +43,7 @@ var currentPath = window.location.href[window.location.href.length -1];
       userBlock = null;      
     } else if(this.props.userState) {
       userBlock =<ul className="nav navbar-nav navbar-right">
-                  <li> <a className='addCode' type='button' onClick={this._onUserClick.bind(this, 'addCode')} header={true}>Add Code</a></li>
+                  <li> <div class="btn-group"><a className='addCode btn btn-warning navbar-btn' type='button' onClick={this._onUserClick.bind(this, 'addCode')} header={true}>Add Code</a></div></li>
                   <li className='userBlock'>
                     <UserName user={this.props.user}/>
                   </li>
