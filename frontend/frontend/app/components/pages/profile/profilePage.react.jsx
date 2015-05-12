@@ -73,7 +73,7 @@ var ProfilePage = React.createClass({
                     <h5><span>Shared publicly</span> - <span>{item.updatedAt}</span> </h5>
                 </div>
                 <div className="panel-body">
-                    <p> {parsedLink}</p>
+                    <p className="linkTitles"> {parsedLink} </p>
                     <a className="panel-google-plus-image" href={item.promoLink}>
                         <img src={item.linkThumbnail} />
 

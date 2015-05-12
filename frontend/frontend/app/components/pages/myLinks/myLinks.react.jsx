@@ -36,7 +36,7 @@ var MyLinks = React.createClass({
                     <h5><span>Shared publicly</span> - <span>{data.updatedAt}</span> </h5>
                 </div>
                 <div className="panel-body">
-                    <p> {parsedLink} </p>
+                    <p className="linkTitles"> {parsedLink} </p>
                     <a className="panel-google-plus-image" href={data.promoLink}>
                         <img src={data.linkThumbnail} />
                     </a>
@@ -53,7 +53,6 @@ var MyLinks = React.createClass({
 
     return (
       <div className='container'>
-      <p>here are all of my links</p>
       <br/>
       {links}
       </div>
