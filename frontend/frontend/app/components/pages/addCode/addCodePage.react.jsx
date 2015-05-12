@@ -38,8 +38,9 @@ var addCodePage = React.createClass({
           <div className="col-md-2">
             <input id="siteCode" ref="CODE" type="text" placeholder="CODE" className="form-control input-md addLinkInputBox" onChange={this._onCodeChange}/>
           </div>
-          <div className="text-center addLinkRow">
-              <button className='btn btn-lg btn-primary submitCodeButton' type='button' onClick={this._handleSubmit}>Add Code</button>
+
+          <div className="col-md-6 col-md-offset-3 text-center addLinkRow">
+              <button className='btn btn-warning submitCodeButton' type='button' onClick={this._handleSubmit}>Add Code</button>
           </div>
       </div>
     </div>

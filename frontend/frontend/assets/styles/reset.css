@@ -1,6 +1,7 @@
 body {
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
    font-weight: 300;
+   background-color: #E3D6C6;
 }
 .mainLogo{
 	height: 40px;
@@ -24,7 +25,8 @@ body {
 }
 .navbar{
   margin-bottom:0px;
-  background-color: rgba(248, 248, 248, 0);
+  /*background-color: rgba(248, 248, 248, 0);*/
+  background-color: #F2AD85;
   z-index: 100;
   margin-bottom: 0px;
   border-bottom: solid 1px;
@@ -38,11 +40,9 @@ body {
 .search{
   padding-bottom: 30px;
 }
-.addCode{
-  line-height: 70%;
-}
 .addLinkRow{
   margin-top: 45px;
+
 }
 .addLinkInputBox{
   height: 300%;
@@ -52,7 +52,14 @@ body {
 .submitCodeButton{
   margin-top: 40px;
   height: 300%;
+  width: 100%;
   line-height: 300%;
+  background-color: #1695A3;
+
+}
+.addCode {
+  color:black;
+  background-color: #DDE0CD;
 }
 
 .navbar_landing{
@@ -80,7 +87,8 @@ body {
 }
 .userBlock{
 	float: right;
-	margin-top: 6px;
+	margin-top: 8px;
+  padding-left: 5px;
 }
 .profileContainer{
 	padding:30px;
