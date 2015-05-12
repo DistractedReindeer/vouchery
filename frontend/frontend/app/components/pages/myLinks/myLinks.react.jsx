@@ -21,6 +21,11 @@ var MyLinks = React.createClass({
   	console.log("-----> " +this.props.user);
   	console.dir(this.props.user.myLinks);
     var links = this.props.user.myLinks.map(function(data){
+
+      var parsedLink = '';
+      var parser = document.createElement('a');
+      parser.href = data.promoLink; 
+      parsedLink = parser.hostname.substring(parser.hostname.indexOf(".")+1, parser.hostname.lastIndexOf('.')).toUpperCase();
       return (
 
         <div className="col-xs-12 col-sm-4">
@@ -31,6 +36,7 @@ var MyLinks = React.createClass({
                     <h5><span>Shared publicly</span> - <span>{data.updatedAt}</span> </h5>
                 </div>
                 <div className="panel-body">
+                    <p> {parsedLink} </p>
                     <a className="panel-google-plus-image" href={data.promoLink}>
                         <img src={data.linkThumbnail} />
                     </a>
